@@ -51,24 +51,28 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
         super.onItemsChanged(slot);
 
         if (slot == 0 || slot == 1) {
-            ItemStack stackInSlot = this.getItemHandler().getStackInSlot(0);
-            CompressingRecipe recipe = level.getRecipeManager().getRecipeFor(CompressingRecipe.TYPE, new SingleRecipeInput(stackInSlot), level)
-                    .map(RecipeHolder::value)
-                    .orElse(null);
-            if (recipe != null) {
-                ItemStack resultStack = this.getItemHandler().getStackInSlot(1);
-                if (resultStack.getCount() + recipe.result().getCount() <= this.getItemHandler().getSlotLimit(1) && (resultStack.is(recipe.result().getItem()) || resultStack.isEmpty())) {
-                    this.currentRecipe = recipe;
-                } else {
-                    this.currentRecipe = null;
-                    this.progress = 0;
-                }
+            this.checkRecipe();
+        }
+
+    }
+
+    private void checkRecipe() {
+        ItemStack stackInSlot = this.getItemHandler().getStackInSlot(0);
+        CompressingRecipe recipe = level.getRecipeManager().getRecipeFor(CompressingRecipe.TYPE, new SingleRecipeInput(stackInSlot), level)
+                .map(RecipeHolder::value)
+                .orElse(null);
+        if (recipe != null) {
+            ItemStack resultStack = this.getItemHandler().getStackInSlot(1);
+            if (resultStack.getCount() + recipe.result().getCount() <= this.getItemHandler().getSlotLimit(1) && (resultStack.is(recipe.result().getItem()) || resultStack.isEmpty())) {
+                this.currentRecipe = recipe;
             } else {
                 this.currentRecipe = null;
                 this.progress = 0;
             }
+        } else {
+            this.currentRecipe = null;
+            this.progress = 0;
         }
-
     }
 
     @Override
@@ -131,6 +135,12 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
         super.saveData(tag, provider);
         tag.putInt("progress", this.progress);
         tag.putInt("redstone_signal_type", this.redstoneSignalType.ordinal());
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        this.checkRecipe();
     }
 
     @Override

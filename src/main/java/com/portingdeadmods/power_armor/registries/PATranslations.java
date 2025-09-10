@@ -24,6 +24,11 @@ public final class PATranslations {
 
     public static final DeferredTranslation<TranslatableConstant> COMPRESSOR_SCREEN_TITLE = CREATIVE_TAB_CATEGORY.registerWithDefault("title.compressor", "Compressor");
 
+    // -- Screens --
+    private static final TranslationCategory JEI_CATEGORY = TRANSLATIONS.createCategory("jei");
+
+    public static final DeferredTranslation<TranslatableConstant> COMPRESSING_JEI_CATEGORY = JEI_CATEGORY.registerWithDefault("category.compressing", "Compressing");
+
     // -- Tooltips --
     private static final TranslationCategory TOOLTIP_CATEGORY = TRANSLATIONS.createCategory("tooltips");
 
