@@ -12,11 +12,11 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(value = PowerArmor.MODID, dist = Dist.CLIENT)
-public final class ExampleModClient {
-    public ExampleModClient(IEventBus modEventBus, ModContainer container) {
+public final class PowerArmorClient {
+    public PowerArmorClient(IEventBus modEventBus, ModContainer container) {
         modEventBus.addListener(this::registerMenuScreens);
 
-        container.registerConfig(ModConfig.Type.CLIENT, ExampleModClientConfig.SPEC);
+        container.registerConfig(ModConfig.Type.CLIENT, PowerArmorClientConfig.SPEC);
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 

@@ -22,6 +22,12 @@ public class EMEnUsLangProvider extends LanguageProvider {
 
         addBlock(PABlocks.MACHINE_FRAME, "Machine Frame");
         addBlock(PABlocks.COMPRESSOR, "Compressor");
+
+        addItem(PAItems.POWER_ARMOR_HELMET, "Power Armor Helmet");
+        addItem(PAItems.POWER_ARMOR_CHESTPLATE, "Power Armor Chestplate");
+        addItem(PAItems.POWER_ARMOR_LEGGINGS, "Power Armor Leggings");
+        addItem(PAItems.POWER_ARMOR_BOOTS, "Power Armor Boots");
+
     }
 
 }

@@ -3,19 +3,19 @@ package com.portingdeadmods.power_armor.content.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.portingdeadmods.portingdeadlibs.api.recipes.IngredientWithCount;
 import com.portingdeadmods.portingdeadlibs.api.recipes.PDLRecipe;
 import com.portingdeadmods.power_armor.PowerArmor;
-import com.portingdeadmods.power_armor.utils.IngredientWithCount;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public record CompressingRecipe(IngredientWithCount ingredient, int duration, ItemStack result) implements PDLRecipe<SingleRecipeInput> {
     public static final RecipeType<CompressingRecipe> TYPE = RecipeType.simple(PowerArmor.rl("compressing"));
@@ -26,17 +26,17 @@ public record CompressingRecipe(IngredientWithCount ingredient, int duration, It
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
+    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
         return this.result.copy();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return Serializer.INSTANCE;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return TYPE;
     }
 
@@ -61,12 +61,12 @@ public record CompressingRecipe(IngredientWithCount ingredient, int duration, It
         }
 
         @Override
-        public MapCodec<CompressingRecipe> codec() {
+        public @NotNull MapCodec<CompressingRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, CompressingRecipe> streamCodec() {
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, CompressingRecipe> streamCodec() {
             return STREAM_CODEC;
         }
     }

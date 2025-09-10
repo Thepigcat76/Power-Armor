@@ -1,6 +1,5 @@
 package com.portingdeadmods.power_armor.client.screens;
 
-import com.portingdeadmods.portingdeadlibs.api.capabilities.NeoEnergyStorageWrapper;
 import com.portingdeadmods.portingdeadlibs.client.screens.widgets.EnergyBarWidget;
 import com.portingdeadmods.portingdeadlibs.client.screens.widgets.RedstonePanelWidget;
 import com.portingdeadmods.power_armor.PowerArmor;

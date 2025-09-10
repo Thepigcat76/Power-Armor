@@ -34,6 +34,12 @@ public class EMItemModelProvider extends ItemModelProvider {
 
         overrideItemModel(6, basicItem(PAItems.BATTERY.get(), extend(itemTexture(PAItems.BATTERY.get()), "_0")), PAItemProperties.BATTERY_STAGE,
                 i -> basicItem(PAItems.BATTERY.get(), "_" + i));
+
+        basicItem(PAItems.POWER_ARMOR_HELMET.get());
+        basicItem(PAItems.POWER_ARMOR_CHESTPLATE.get());
+        basicItem(PAItems.POWER_ARMOR_LEGGINGS.get());
+        basicItem(PAItems.POWER_ARMOR_BOOTS.get());
+
     }
 
     private void overrideItemModel(int variants, ItemModelBuilder defaultModel, ResourceLocation key, Function<Integer, ItemModelBuilder> overrideFunction) {

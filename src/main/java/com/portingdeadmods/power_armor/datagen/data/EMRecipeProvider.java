@@ -1,10 +1,10 @@
 package com.portingdeadmods.power_armor.datagen.data;
 
+import com.portingdeadmods.portingdeadlibs.api.recipes.IngredientWithCount;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.content.recipes.CompressingRecipe;
 import com.portingdeadmods.power_armor.registries.PABlocks;
 import com.portingdeadmods.power_armor.registries.PAItems;
-import com.portingdeadmods.power_armor.utils.IngredientWithCount;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;

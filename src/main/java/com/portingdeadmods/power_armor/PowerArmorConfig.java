@@ -14,6 +14,13 @@ public final class PowerArmorConfig {
             .comment("Amount of energy the battery item can transfer per tick")
             .defineInRange("battery_transfer", 32, 0, Integer.MAX_VALUE);
 
+    public static final ModConfigSpec.IntValue POWER_ARMOR_CAPACITY = BUILDER
+            .comment("Energy capacity of the power armor item")
+            .defineInRange("battery_capacity", 64_000, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_TRANSFER = BUILDER
+            .comment("Amount of energy the power armor item can transfer per tick")
+            .defineInRange("battery_transfer", 32, 0, Integer.MAX_VALUE);
+
     public static final ModConfigSpec.IntValue COMPRESSOR_CAPACITY = BUILDER
             .comment("Energy capacity of the compressor")
             .defineInRange("compressor_capacity", 16_000, 0, Integer.MAX_VALUE);
