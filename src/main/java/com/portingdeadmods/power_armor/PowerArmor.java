@@ -10,6 +10,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.energy.ComponentEnergyStorage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -29,6 +30,7 @@ public final class PowerArmor {
     public PowerArmor(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::registerPayloads);
         modEventBus.addListener(this::registerCapabilities);
+        modEventBus.addListener(this::registerRegistries);
 
         PAItems.ITEMS.register(modEventBus);
         PABlocks.BLOCKS.register(modEventBus);
@@ -38,8 +40,13 @@ public final class PowerArmor {
         PAMenuTypes.MENU_TYPES.register(modEventBus);
         PARecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         PAArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
+        PAArmorModules.ARMOR_MODULES.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, PowerArmorConfig.SPEC);
+    }
+
+    private void registerRegistries(NewRegistryEvent event) {
+        event.register(PARegistries.ARMOR_MODULE);
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {

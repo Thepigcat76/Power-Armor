@@ -140,6 +140,7 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
     @Override
     public void onLoad() {
         super.onLoad();
+
         this.checkRecipe();
     }
 
@@ -151,10 +152,12 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
     @Override
     public void setRedstoneSignalType(RedstoneSignalType redstoneSignalType) {
         this.redstoneSignalType = redstoneSignalType;
+        this.update();
     }
 
     @Override
     public RedstoneSignalType getRedstoneSignalType() {
         return this.redstoneSignalType;
     }
+
 }

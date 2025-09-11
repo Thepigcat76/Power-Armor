@@ -32,6 +32,8 @@ public class EMItemModelProvider extends ItemModelProvider {
         basicItem(PAItems.IRON_PLATE.get());
         basicItem(PAItems.COPPER_WIRE.get());
 
+        basicItem(PAItems.ARMOR_PLATING.get());
+
         overrideItemModel(6, basicItem(PAItems.BATTERY.get(), extend(itemTexture(PAItems.BATTERY.get()), "_0")), PAItemProperties.BATTERY_STAGE,
                 i -> basicItem(PAItems.BATTERY.get(), "_" + i));
 

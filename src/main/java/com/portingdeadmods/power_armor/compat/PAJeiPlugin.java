@@ -1,10 +1,12 @@
 package com.portingdeadmods.power_armor.compat;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.client.screens.CompressorScreen;
 import com.portingdeadmods.power_armor.content.recipes.CompressingRecipe;
 import com.portingdeadmods.power_armor.registries.PABlocks;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -47,5 +49,10 @@ public final class PAJeiPlugin implements IModPlugin {
         RecipeManager recipeManager = level.getRecipeManager();
         List<CompressingRecipe> recipes = recipeManager.getAllRecipesFor(CompressingRecipe.TYPE).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(CompressingCategory.TYPE, recipes);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addGenericGuiContainerHandler(CompressorScreen.class, new JeiWidgetBounds());
     }
 }

@@ -17,6 +17,7 @@ public final class PAItems {
     public static final DeferredItem<Item> COPPER_PLATE = ITEMS.registerSimpleItem("copper_plate");
     public static final DeferredItem<Item> COPPER_WIRE = ITEMS.registerSimpleItem("copper_wire");
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerSimpleItem("iron_plate");
+    public static final DeferredItem<Item> ARMOR_PLATING = ITEMS.registerSimpleItem("armor_plating");
 
     public static final DeferredItem<Item> BATTERY = ITEMS.register("battery", () -> new BatteryItem(new Item.Properties()
             .component(PDLDataComponents.ENERGY, 0)

@@ -22,6 +22,8 @@ public class EMBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         simpleBlock(PABlocks.MACHINE_FRAME.get());
 
+        simpleBlock(PABlocks.ARMOR_MODIFICATION_TABLE.get(), models().getExistingFile(PowerArmor.rl("block/armor_modification_table")));
+
         modelBuilder(PABlocks.COMPRESSOR.get())
                 .front(this::blockTexture, "_front")
                 .horizontalFacing()

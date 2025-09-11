@@ -3,6 +3,8 @@ package com.portingdeadmods.power_armor.datagen.data;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.registries.PABlocks;
 import com.portingdeadmods.portingdeadlibs.api.fluids.PDLFluid;
+import com.portingdeadmods.power_armor.registries.PAItems;
+import com.portingdeadmods.power_armor.registries.PATags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -36,6 +38,12 @@ public class EMTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
+            tag(PATags.ItemTags.PLATES, PATags.ItemTags.PLATES_COPPER, PATags.ItemTags.PLATES_IRON);
+            tag(PATags.ItemTags.WIRES, PATags.ItemTags.WIRES_COPPER);
+
+            tag(PATags.ItemTags.PLATES_COPPER, PAItems.COPPER_PLATE.get());
+            tag(PATags.ItemTags.PLATES_IRON, PAItems.IRON_PLATE.get());
+            tag(PATags.ItemTags.WIRES_COPPER, PAItems.COPPER_WIRE.get());
         }
 
         private void tag(TagKey<Item> itemTagKey, ItemLike... items) {
@@ -61,7 +69,8 @@ public class EMTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-            tag(BlockTags.NEEDS_IRON_TOOL, PABlocks.MACHINE_FRAME.get());
+            tag(BlockTags.NEEDS_STONE_TOOL, PABlocks.MACHINE_FRAME.get());
+            tag(BlockTags.NEEDS_STONE_TOOL, PABlocks.COMPRESSOR.get());
         }
 
         private void tag(TagKey<Block> itemTagKey, Block... blocks) {

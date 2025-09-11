@@ -20,8 +20,11 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addItem(PAItems.COPPER_WIRE, "Copper Wire");
         addItem(PAItems.IRON_PLATE, "Iron Plate");
 
+        addItem(PAItems.ARMOR_PLATING, "Armor Plating");
+
         addBlock(PABlocks.MACHINE_FRAME, "Machine Frame");
         addBlock(PABlocks.COMPRESSOR, "Compressor");
+        addBlock(PABlocks.ARMOR_MODIFICATION_TABLE, "Armor Modification Table");
 
         addItem(PAItems.POWER_ARMOR_HELMET, "Power Armor Helmet");
         addItem(PAItems.POWER_ARMOR_CHESTPLATE, "Power Armor Chestplate");
