@@ -22,9 +22,11 @@ public final class PATranslations {
     // -- Screens --
     private static final TranslationCategory SCREEN_CATEGORY = TRANSLATIONS.createCategory("screens");
 
-    public static final DeferredTranslation<TranslatableConstant> COMPRESSOR_SCREEN_TITLE = CREATIVE_TAB_CATEGORY.registerWithDefault("title.compressor", "Compressor");
+    public static final DeferredTranslation<TranslatableConstant> COMPRESSOR_SCREEN_TITLE = SCREEN_CATEGORY.registerWithDefault("title.compressor", "Compressor");
 
-    // -- Screens --
+    public static final DeferredTranslation<TranslatableConstant> ARMOR_MODIFICATION_SCREEN_TITLE = SCREEN_CATEGORY.registerWithDefault("title.armor_modification_table", "Armor Modification Table");
+
+    // -- Jei Categories --
     private static final TranslationCategory JEI_CATEGORY = TRANSLATIONS.createCategory("jei");
 
     public static final DeferredTranslation<TranslatableConstant> COMPRESSING_JEI_CATEGORY = JEI_CATEGORY.registerWithDefault("category.compressing", "Compressing");

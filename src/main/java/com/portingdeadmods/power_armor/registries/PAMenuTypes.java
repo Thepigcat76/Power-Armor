@@ -1,6 +1,7 @@
 package com.portingdeadmods.power_armor.registries;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.content.menus.ArmorModificationTableMenu;
 import com.portingdeadmods.power_armor.content.menus.CompressorMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
@@ -13,4 +14,5 @@ public final class PAMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, PowerArmor.MODID);
 
     public static final Supplier<MenuType<CompressorMenu>> COMPRESSOR = MENU_TYPES.register("compressor", () -> IMenuTypeExtension.create(CompressorMenu::new));
+    public static final Supplier<MenuType<ArmorModificationTableMenu>> ARMOR_MODIFICATION_TABLE = MENU_TYPES.register("armor_modification_table", () -> IMenuTypeExtension.create(ArmorModificationTableMenu::new));
 }

@@ -27,7 +27,7 @@ public class EMRecipeProvider extends RecipeProvider {
     protected void buildRecipes(RecipeOutput output) {
         super.buildRecipes(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, PABlocks.MACHINE_FRAME, 2)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, PABlocks.MACHINE_FRAME)
                 .pattern("PRP")
                 .pattern("RSR")
                 .pattern("PRP")

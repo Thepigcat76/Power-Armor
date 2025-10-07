@@ -1,12 +1,17 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.power_armor.client.items.ClientPowerArmorTooltip;
+import com.portingdeadmods.power_armor.client.screens.ArmorModificationTableScreen;
 import com.portingdeadmods.power_armor.client.screens.CompressorScreen;
+import com.portingdeadmods.power_armor.content.items.PowerArmorTooltipComponent;
+import com.portingdeadmods.power_armor.content.menus.ArmorModificationTableMenu;
 import com.portingdeadmods.power_armor.registries.PAMenuTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -15,6 +20,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public final class PowerArmorClient {
     public PowerArmorClient(IEventBus modEventBus, ModContainer container) {
         modEventBus.addListener(this::registerMenuScreens);
+        modEventBus.addListener(this::registerClientTooltips);
 
         container.registerConfig(ModConfig.Type.CLIENT, PowerArmorClientConfig.SPEC);
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -22,5 +28,11 @@ public final class PowerArmorClient {
 
     private void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(PAMenuTypes.COMPRESSOR.get(), CompressorScreen::new);
+        event.register(PAMenuTypes.ARMOR_MODIFICATION_TABLE.get(), ArmorModificationTableScreen::new);
     }
+
+    private void registerClientTooltips(RegisterClientTooltipComponentFactoriesEvent event) {
+        event.register(PowerArmorTooltipComponent.class, ClientPowerArmorTooltip::new);
+    }
+
 }

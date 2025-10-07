@@ -28,5 +28,9 @@ public final class PowerArmorConfig {
             .comment("Energy usage of the compressor per tick")
             .defineInRange("compressor_usage", 8, 0, Integer.MAX_VALUE);
 
+    public static final ModConfigSpec.IntValue ARMOR_MODIFICATION_TABLE_CAPACITY = BUILDER
+            .comment("Energy capacity of the armor modification table")
+            .defineInRange("armor_modification_table_capacity", 512_000, 0, Integer.MAX_VALUE);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

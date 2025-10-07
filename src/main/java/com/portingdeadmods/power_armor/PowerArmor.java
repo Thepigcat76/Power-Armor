@@ -1,8 +1,11 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.registries.*;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -34,6 +37,7 @@ public final class PowerArmor {
 
         PAItems.ITEMS.register(modEventBus);
         PABlocks.BLOCKS.register(modEventBus);
+        PAComponents.COMPONENTS.register(modEventBus);
         PATranslations.TRANSLATIONS.register(modEventBus);
         PACreativeTabs.TABS.register(modEventBus);
         PABlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
@@ -72,6 +76,8 @@ public final class PowerArmor {
 
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getItemHandler());
+
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getItemHandler());
 
     }
 
