@@ -11,6 +11,7 @@ import com.portingdeadmods.power_armor.registries.PAArmorMaterials;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.registries.PATranslations;
 import com.portingdeadmods.power_armor.utils.ItemBarUtils;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
@@ -55,20 +56,20 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
     public int getBarWidth(ItemStack stack) {
         return ItemBarUtils.energyBarWidth(stack);
     }
-
-    @Override
-    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
-        UniqueArray<ArmorModule> modules = stack.get(PAComponents.ARMOR_MODULE.get()).modules();
-        ArmorModule module = ArmorModule.byItem(other.getItem());
-        if (module != null) {
-            if (modules.add(module)) {
-                stack.set(PAComponents.ARMOR_MODULE.get(), new ArmorModuleComponent(modules, 8));
-                player.inventoryMenu.setCarried(ItemStack.EMPTY);
-                return true;
-            }
-        }
-        return super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
-    }
+//
+//    @Override
+//    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
+//        NonNullList<ArmorModule> modules = stack.get(PAComponents.ARMOR_MODULE.get()).modules();
+//        ArmorModule module = ArmorModule.byItem(other.getItem());
+//        if (module != null) {
+//            if (modules.add(module)) {
+//                stack.set(PAComponents.ARMOR_MODULE.get(), new ArmorModuleComponent(modules, 8));
+//                player.inventoryMenu.setCarried(ItemStack.EMPTY);
+//                return true;
+//            }
+//        }
+//        return super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
+//    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

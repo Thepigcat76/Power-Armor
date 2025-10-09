@@ -5,11 +5,29 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public interface ArmorModule {
+    ArmorModule EMPTY = new ArmorModule() {
+        @Override
+        public Item getItem() {
+            return Items.AIR;
+        }
+
+        @Override
+        public Component getDisplayName() {
+            return Component.literal("Empty");
+        }
+
+        @Override
+        public @org.jetbrains.annotations.Nullable ArmorItem.Type getArmorType() {
+            return null;
+        }
+    };
+
     Item getItem();
 
     Component getDisplayName();

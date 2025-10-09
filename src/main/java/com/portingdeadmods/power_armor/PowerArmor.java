@@ -35,6 +35,7 @@ public final class PowerArmor {
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::registerRegistries);
 
+        PAArmorModules.ARMOR_MODULES.register(modEventBus);
         PAItems.ITEMS.register(modEventBus);
         PABlocks.BLOCKS.register(modEventBus);
         PAComponents.COMPONENTS.register(modEventBus);
@@ -44,7 +45,6 @@ public final class PowerArmor {
         PAMenuTypes.MENU_TYPES.register(modEventBus);
         PARecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         PAArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
-        PAArmorModules.ARMOR_MODULES.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, PowerArmorConfig.SPEC);
     }

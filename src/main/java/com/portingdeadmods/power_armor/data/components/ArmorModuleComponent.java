@@ -2,7 +2,6 @@ package com.portingdeadmods.power_armor.data.components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.portingdeadmods.portingdeadlibs.utils.UniqueArray;
 import com.portingdeadmods.portingdeadlibs.utils.codec.CodecUtils;
 import com.portingdeadmods.power_armor.PARegistries;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
@@ -15,9 +14,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public record ArmorModuleComponent(NonNullList<ArmorModule> modules, int modulesAmount) {
-    public static final ArmorModuleComponent EMPTY = new ArmorModuleComponent(NonNullList.withSize(8, PAArmorModules.EMPTY.get()), 8);
+    public static final ArmorModuleComponent EMPTY = new ArmorModuleComponent(NonNullList.withSize(8, ArmorModule.EMPTY), 8);
     public static final Codec<ArmorModuleComponent> CODEC = RecordCodecBuilder.create(inst -> inst.group(
             NonNullList.codecOf(CodecUtils.registryCodec(PARegistries.ARMOR_MODULE)).fieldOf("modules").forGetter(ArmorModuleComponent::modules),
             Codec.INT.fieldOf("modules_amount").forGetter(ArmorModuleComponent::modulesAmount)
@@ -40,7 +40,16 @@ public record ArmorModuleComponent(NonNullList<ArmorModule> modules, int modules
 
     @Override
     public NonNullList<ArmorModule> modules() {
-        return NonNullList.copyOf(this.modules);
+        NonNullList<ArmorModule> modules = NonNullList.withSize(this.modules.size(), ArmorModule.EMPTY);
+        for (int i = 0; i < this.modules.size(); i++) {
+            ArmorModule module = this.modules.get(i);
+            modules.set(i, module);
+        }
+        return modules;
+    }
+
+    public NonNullList<ArmorModule> modulesUnsafe() {
+        return this.modules;
     }
 
     public void addTooltip(ItemStack stack, List<Component> tooltipComponents) {

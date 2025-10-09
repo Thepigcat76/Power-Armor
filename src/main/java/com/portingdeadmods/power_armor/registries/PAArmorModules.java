@@ -15,22 +15,7 @@ import java.util.function.Supplier;
 public final class PAArmorModules {
     public static final DeferredRegister<ArmorModule> ARMOR_MODULES = DeferredRegister.create(PARegistries.ARMOR_MODULE, PowerArmor.MODID);
 
-    public static final Supplier<ArmorModule> EMPTY = ARMOR_MODULES.register("empty", () -> new ArmorModule() {
-        @Override
-        public Item getItem() {
-            return Items.AIR;
-        }
-
-        @Override
-        public Component getDisplayName() {
-            return Component.literal("Empty");
-        }
-
-        @Override
-        public ArmorItem.Type getArmorType() {
-            return null;
-        }
-    });
+    public static final Supplier<ArmorModule> EMPTY = ARMOR_MODULES.register("empty", () -> ArmorModule.EMPTY);
     public static final Supplier<JetpackArmorModule> JETPACK = ARMOR_MODULES.register("jetpack", JetpackArmorModule::new);
 
 }

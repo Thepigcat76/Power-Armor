@@ -29,7 +29,7 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
     public ItemStack getStackInSlot(int i) {
         if (i == 0) return this.itemStack.copy();
 
-        NonNullList<ArmorModule> modules = this.getArmorModules().modules();
+        NonNullList<ArmorModule> modules = this.getArmorModules().modulesUnsafe();
         if (modules.size() > i - 1) {
             return modules.get(i - 1).getItem().getDefaultInstance();
         }
@@ -81,7 +81,7 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
         if (i == 0) return itemStack.has(PAComponents.ARMOR_MODULE);
 
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
-        return armorModule != null && !this.getArmorModules().modules().contains(armorModule);
+        return armorModule != null && !this.getArmorModules().modulesUnsafe().contains(armorModule);
     }
 
     @Override
