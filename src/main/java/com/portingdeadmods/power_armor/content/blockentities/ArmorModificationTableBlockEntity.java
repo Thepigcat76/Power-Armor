@@ -12,7 +12,9 @@ import com.portingdeadmods.power_armor.registries.PATranslations;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -51,6 +53,11 @@ public class ArmorModificationTableBlockEntity extends ContainerBlockEntity impl
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new ArmorModificationTableMenu(i, inventory, this);
+    }
+
+    @Override
+    public void drop() {
+        Containers.dropContents(this.level, this.worldPosition, NonNullList.of(ItemStack.EMPTY, this.itemHandler.getStackInSlot(0)));
     }
 
 }

@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -56,27 +57,6 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
     public int getBarWidth(ItemStack stack) {
         return ItemBarUtils.energyBarWidth(stack);
     }
-//
-//    @Override
-//    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
-//        NonNullList<ArmorModule> modules = stack.get(PAComponents.ARMOR_MODULE.get()).modules();
-//        ArmorModule module = ArmorModule.byItem(other.getItem());
-//        if (module != null) {
-//            if (modules.add(module)) {
-//                stack.set(PAComponents.ARMOR_MODULE.get(), new ArmorModuleComponent(modules, 8));
-//                player.inventoryMenu.setCarried(ItemStack.EMPTY);
-//                return true;
-//            }
-//        }
-//        return super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
-//    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        stack.set(PAComponents.ARMOR_MODULE.get(), ArmorModuleComponent.of(PAArmorModules.JETPACK.get()));
-        return super.use(level, player, hand);
-    }
 
     @Override
     public int getBarColor(ItemStack stack) {
@@ -86,6 +66,22 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
     @Override
     public @NotNull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
         return Optional.of(new PowerArmorTooltipComponent(stack.get(PAComponents.ARMOR_MODULE)));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+
+        if (entity instanceof Player player) {
+            ItemStack itemBySlot = player.getItemBySlot(this.type.getSlot());
+            if (itemBySlot == stack) {
+                ArmorModuleComponent armorModuleComponent = stack.get(PAComponents.ARMOR_MODULE);
+                for (ArmorModule module : armorModuleComponent.modulesUnsafe()) {
+                    module.tick(stack, player);
+                }
+            }
+        }
+
     }
 
     @Override

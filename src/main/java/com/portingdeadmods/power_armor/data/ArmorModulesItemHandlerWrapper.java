@@ -6,6 +6,7 @@ import com.portingdeadmods.power_armor.data.components.ArmorModuleComponent;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -80,8 +81,17 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
     public boolean isItemValid(int i, ItemStack itemStack) {
         if (i == 0) return itemStack.has(PAComponents.ARMOR_MODULE);
 
+        ArmorItem.Type armorType;
+        if (this.itemStack.getItem() instanceof ArmorItem armorItem) {
+            armorType = armorItem.getType();
+        } else {
+            armorType = null;
+        }
+
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
-        return armorModule != null && !this.getArmorModules().modulesUnsafe().contains(armorModule);
+        return armorModule != null
+                && !this.getArmorModules().modulesUnsafe().contains(armorModule)
+                && (armorModule.getArmorType() == armorType || armorType == null);
     }
 
     @Override

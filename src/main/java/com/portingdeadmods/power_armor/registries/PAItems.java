@@ -35,6 +35,9 @@ public final class PAItems {
     public static final DeferredItem<PowerArmorItem> POWER_ARMOR_LEGGINGS = ITEMS.register("power_armor_leggings", () -> new PowerArmorItem(ArmorItem.Type.LEGGINGS, POWER_ARMOR_PROPS.get()));
     public static final DeferredItem<PowerArmorItem> POWER_ARMOR_BOOTS = ITEMS.register("power_armor_boots", () -> new PowerArmorItem(ArmorItem.Type.BOOTS, POWER_ARMOR_PROPS.get()));
 
-    public static final DeferredItem<Item> JETPACK_ARMOR_MODULE = ITEMS.registerSimpleItem("jetpack_armor_module");
+    public static final DeferredItem<Item> BLANK_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_blank");
+    public static final DeferredItem<Item> JETPACK_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_jetpack");
+    public static final DeferredItem<Item> LASER_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_laser");
+    public static final DeferredItem<Item> SOLAR_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_solar");
 
 }
