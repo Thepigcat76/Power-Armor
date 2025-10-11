@@ -18,22 +18,21 @@ public class SolarArmorModule implements ArmorModule {
     }
 
     @Override
-    public Component getDisplayName() {
-        return Component.literal("Solar");
-    }
-
-    @Override
     public @Nullable ArmorItem.Type getArmorType() {
         return ArmorItem.Type.HELMET;
     }
 
     @Override
     public void tick(ItemStack armorItem, Player player) {
-        ArmorModule.super.tick(armorItem, player);
+        Iterable<ItemStack> armorStacks = player.getArmorSlots();
 
-        if (!player.level().isNight() && player.level().getGameTime() % 10 == 0 && !player.level().isClientSide()) {
-            IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            energyStorage.receiveEnergy(1, false);
+        if (!player.level().isNight() && player.level().getGameTime() % 5 == 0 && !player.level().isClientSide()) {
+            for (ItemStack stack : armorStacks) {
+                IEnergyStorage energyStorage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+                if (energyStorage != null) {
+                    energyStorage.receiveEnergy(20, false);
+                }
+            }
         }
     }
 

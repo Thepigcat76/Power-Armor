@@ -91,7 +91,7 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
         return armorModule != null
                 && !this.getArmorModules().modulesUnsafe().contains(armorModule)
-                && (armorModule.getArmorType() == armorType || armorType == null);
+                && (armorModule.getArmorType() == armorType || armorType == null || armorModule.getArmorType() == null);
     }
 
     @Override
@@ -103,10 +103,13 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
         NonNullList<ArmorModule> modules = this.getArmorModules().modules();
         if (modules.size() > i - 1) {
-            if (armorModule != null) {
+            if (armorModule != null && armorModule != ArmorModule.EMPTY) {
                 modules.set(i - 1, armorModule);
+                armorModule.onAdded(this.itemStack);
             } else if (itemStack.isEmpty()) {
-                modules.remove(i - 1);
+                ArmorModule prevModule = modules.get(i - 1);
+                modules.set(i - 1, ArmorModule.EMPTY);
+                prevModule.onRemoved(this.itemStack);
             }
         }
         this.itemStack.set(PAComponents.ARMOR_MODULE.get(), new ArmorModuleComponent(modules, this.getArmorModules().modulesAmount()));

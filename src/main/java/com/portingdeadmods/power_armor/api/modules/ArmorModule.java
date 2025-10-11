@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor.api.modules;
 
+import com.portingdeadmods.portingdeadlibs.utils.Utils;
 import com.portingdeadmods.power_armor.PARegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -32,15 +33,26 @@ public interface ArmorModule {
 
     Item getItem();
 
-    Component getDisplayName();
+    default Component getDisplayName() {
+        return Utils.registryTranslation(PARegistries.ARMOR_MODULE, this);
+    }
 
     @Nullable ArmorItem.Type getArmorType();
 
     default void addTooltip(ItemStack stack, List<Component> tooltipComponents) {
     }
 
+    /**
+     * Only called when the module is
+     * installed on armor module which is worn
+     */
     default void tick(ItemStack armorItem, Player player) {
+    }
 
+    default void onAdded(ItemStack armorItem) {
+    }
+
+    default void onRemoved(ItemStack armorItem) {
     }
 
     static @Nullable ArmorModule byItem(Item item) {

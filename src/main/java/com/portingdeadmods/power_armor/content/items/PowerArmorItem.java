@@ -11,6 +11,7 @@ import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.registries.PATranslations;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import com.portingdeadmods.power_armor.utils.ItemBarUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -22,7 +23,10 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,16 +86,20 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        if (!tooltipFlag.hasShiftDown()) {
+            tooltip.add(Component.literal("<Press SHIFT for more info>").withStyle(ChatFormatting.GRAY));
+        }
         tooltip.add(PATranslations.BATTERY_TOOLTIP.component(stack.get(PDLDataComponents.ENERGY), this.getEnergyCapacity())
                 .withColor(FastColor.ARGB32.color(255, 245, 192, 89)));
-        tooltip.add(Component.literal("Modules:"));
-        if (!tooltipFlag.hasShiftDown()) {
-            tooltip.add(Component.literal("<Press SHIFT to display>"));
-        } else {
-            for (int i = 0; i < 8; i++) {
-                tooltip.add(Component.literal("[ ] - Empty"));
-            }
+    }
+
+    @Override
+    public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        IEnergyStorage energyStorage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energyStorage != null && energyStorage.getEnergyStored() > 0) {
+            return stack.getOrDefault(PAComponents.DEFAULT_ATTRIBUTES, ItemAttributeModifiers.EMPTY);
         }
+        return ItemAttributeModifiers.EMPTY;
     }
 
     public static final ResourceLocation ARMOR_TEXTURE_LAYER_1 = ResourceLocation.withDefaultNamespace("textures/models/armor/power_armor_layer_1.png");

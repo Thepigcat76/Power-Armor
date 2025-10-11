@@ -22,11 +22,6 @@ public class JetpackArmorModule implements ArmorModule {
     }
 
     @Override
-    public Component getDisplayName() {
-        return Component.literal("Jetpack");
-    }
-
-    @Override
     public ArmorItem.Type getArmorType() {
         return ArmorItem.Type.CHESTPLATE;
     }

@@ -14,11 +14,6 @@ public class LaserArmorModule implements ArmorModule {
     }
 
     @Override
-    public Component getDisplayName() {
-        return Component.literal("Laser");
-    }
-
-    @Override
     public @Nullable ArmorItem.Type getArmorType() {
         return ArmorItem.Type.CHESTPLATE;
     }

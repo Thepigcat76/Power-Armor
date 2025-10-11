@@ -20,7 +20,6 @@ public class CompressorScreen extends PanelContainerScreen<CompressorMenu> {
         super(menu, playerInventory, title);
     }
 
-
     @Override
     protected void init() {
         super.init();

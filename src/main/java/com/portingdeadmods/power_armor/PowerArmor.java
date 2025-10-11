@@ -2,6 +2,8 @@ package com.portingdeadmods.power_armor;
 
 import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
+import com.portingdeadmods.power_armor.networking.ArmorWidgetOpenClosePayload;
+import com.portingdeadmods.power_armor.networking.ArmorWidgetSetSlotPositionsPayload;
 import com.portingdeadmods.power_armor.networking.UpdateInputPayload;
 import com.portingdeadmods.power_armor.registries.*;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
@@ -63,6 +65,8 @@ public final class PowerArmor {
         PayloadRegistrar registrar = event.registrar(MODID);
 
         registrar.playToServer(UpdateInputPayload.TYPE, UpdateInputPayload.STREAM_CODEC, UpdateInputPayload::handle);
+        registrar.playToServer(ArmorWidgetOpenClosePayload.TYPE, ArmorWidgetOpenClosePayload.STREAM_CODEC, ArmorWidgetOpenClosePayload::handle);
+        registrar.playToServer(ArmorWidgetSetSlotPositionsPayload.TYPE, ArmorWidgetSetSlotPositionsPayload.STREAM_CODEC, ArmorWidgetSetSlotPositionsPayload::handle);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {

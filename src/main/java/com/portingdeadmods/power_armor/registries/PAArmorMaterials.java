@@ -19,17 +19,17 @@ public final class PAArmorMaterials {
 
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> POWER_ARMOR = ARMOR_MATERIALS.register("power_armor", () -> new ArmorMaterial(
             Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.BOOTS, 1);
-                map.put(ArmorItem.Type.LEGGINGS, 2);
-                map.put(ArmorItem.Type.CHESTPLATE, 3);
-                map.put(ArmorItem.Type.HELMET, 1);
-                map.put(ArmorItem.Type.BODY, 3);
+                map.put(ArmorItem.Type.BOOTS, 0);
+                map.put(ArmorItem.Type.LEGGINGS, 0);
+                map.put(ArmorItem.Type.CHESTPLATE, 0);
+                map.put(ArmorItem.Type.HELMET, 0);
+                map.put(ArmorItem.Type.BODY, 0);
             }),
             15,
             SoundEvents.ARMOR_EQUIP_GENERIC,
             () -> Ingredient.EMPTY,
             List.of(new ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace("power_armor"))),
-            2.0F,
+            0,
             0
     ));
 

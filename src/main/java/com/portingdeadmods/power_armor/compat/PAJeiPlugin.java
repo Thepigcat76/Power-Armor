@@ -1,6 +1,7 @@
 package com.portingdeadmods.power_armor.compat;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.client.screens.ArmorModificationTableScreen;
 import com.portingdeadmods.power_armor.client.screens.CompressorScreen;
 import com.portingdeadmods.power_armor.content.recipes.CompressingRecipe;
 import com.portingdeadmods.power_armor.registries.PABlocks;
@@ -54,5 +55,7 @@ public final class PAJeiPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGenericGuiContainerHandler(CompressorScreen.class, new JeiWidgetBounds());
+        registration.addGenericGuiContainerHandler(ArmorModificationTableScreen.class, new JeiWidgetBounds());
     }
+
 }

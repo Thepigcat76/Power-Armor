@@ -9,6 +9,7 @@ import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.data.components.ArmorModuleComponent;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.function.Supplier;
@@ -28,6 +29,7 @@ public final class PAItems {
     private static final Supplier<Item.Properties> POWER_ARMOR_PROPS = () -> new Item.Properties()
             .component(PAComponents.ARMOR_MODULE.get(), ArmorModuleComponent.EMPTY)
             .component(PDLDataComponents.ENERGY.get(), 0)
+            .component(PAComponents.DEFAULT_ATTRIBUTES.get(), ItemAttributeModifiers.EMPTY)
             .stacksTo(1);
 
     public static final DeferredItem<PowerArmorItem> POWER_ARMOR_HELMET = ITEMS.register("power_armor_helmet", () -> new PowerArmorItem(ArmorItem.Type.HELMET, POWER_ARMOR_PROPS.get()));
@@ -39,5 +41,6 @@ public final class PAItems {
     public static final DeferredItem<Item> JETPACK_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_jetpack");
     public static final DeferredItem<Item> LASER_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_laser");
     public static final DeferredItem<Item> SOLAR_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_solar");
+    public static final DeferredItem<Item> PLATING_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_plating");
 
 }

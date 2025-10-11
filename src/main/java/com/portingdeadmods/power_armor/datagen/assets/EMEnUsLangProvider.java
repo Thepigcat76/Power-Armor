@@ -36,6 +36,7 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addItem(PAItems.JETPACK_ARMOR_MODULE, "Jetpack Armor Module");
         addItem(PAItems.LASER_ARMOR_MODULE, "Laser Armor Module");
         addItem(PAItems.SOLAR_ARMOR_MODULE, "Solar Armor Module");
+        addItem(PAItems.PLATING_ARMOR_MODULE, "Armor Plating Module");
 
     }
 

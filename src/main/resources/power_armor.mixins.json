@@ -2,10 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.portingdeadmods.power_armor.mixins",
-  "refmap": "mixins.indref.refmap.json",
+  "refmap": "mixins.power_armor.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "SlotMixin"
   ],
   "client": [
   ]
