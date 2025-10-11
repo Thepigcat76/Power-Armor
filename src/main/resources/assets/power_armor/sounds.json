@@ -1,9 +1,9 @@
 {
-  "example": {
+  "jetpack": {
     "category": "players",
-    "subtitle": "examplemod.example",
+    "subtitle": "power_armor.jetpack",
     "sounds": [
-      "examplemod:example"
+      "power_armor:jetpack"
     ]
   }
 }

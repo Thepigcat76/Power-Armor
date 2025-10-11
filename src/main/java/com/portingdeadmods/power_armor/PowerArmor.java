@@ -1,6 +1,8 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
+import com.portingdeadmods.power_armor.networking.UpdateInputPayload;
 import com.portingdeadmods.power_armor.registries.*;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.energy.ComponentEnergyStorage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -45,6 +48,9 @@ public final class PowerArmor {
         PAMenuTypes.MENU_TYPES.register(modEventBus);
         PARecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         PAArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
+        PASoundEvents.SOUND_EVENTS.register(modEventBus);
+
+        NeoForge.EVENT_BUS.register(new InputHandler());
 
         modContainer.registerConfig(ModConfig.Type.COMMON, PowerArmorConfig.SPEC);
     }
@@ -55,6 +61,8 @@ public final class PowerArmor {
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(MODID);
+
+        registrar.playToServer(UpdateInputPayload.TYPE, UpdateInputPayload.STREAM_CODEC, UpdateInputPayload::handle);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {

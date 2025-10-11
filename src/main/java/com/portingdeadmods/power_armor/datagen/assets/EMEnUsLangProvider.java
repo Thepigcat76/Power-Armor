@@ -21,6 +21,7 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addItem(PAItems.IRON_PLATE, "Iron Plate");
 
         addItem(PAItems.ARMOR_PLATING, "Armor Plating");
+        addItem(PAItems.BATTERY, "Battery");
 
         addBlock(PABlocks.MACHINE_FRAME, "Machine Frame");
         addBlock(PABlocks.COMPRESSOR, "Compressor");
@@ -30,6 +31,11 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addItem(PAItems.POWER_ARMOR_CHESTPLATE, "Power Armor Chestplate");
         addItem(PAItems.POWER_ARMOR_LEGGINGS, "Power Armor Leggings");
         addItem(PAItems.POWER_ARMOR_BOOTS, "Power Armor Boots");
+
+        addItem(PAItems.BLANK_ARMOR_MODULE, "Blank Armor Module");
+        addItem(PAItems.JETPACK_ARMOR_MODULE, "Jetpack Armor Module");
+        addItem(PAItems.LASER_ARMOR_MODULE, "Laser Armor Module");
+        addItem(PAItems.SOLAR_ARMOR_MODULE, "Solar Armor Module");
 
     }
 
