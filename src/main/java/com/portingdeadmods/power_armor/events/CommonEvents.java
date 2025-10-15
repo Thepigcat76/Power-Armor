@@ -1,6 +1,7 @@
 package com.portingdeadmods.power_armor.events;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.content.items.ArmorRemoveHandler;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -10,6 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 
 @EventBusSubscriber(modid = PowerArmor.MODID)
@@ -26,4 +28,13 @@ public final class CommonEvents {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onEquipmentChange(LivingEquipmentChangeEvent event) {
+        ItemStack stack = event.getFrom();
+        if (event.getEntity() instanceof Player player && stack.getItem() instanceof ArmorRemoveHandler armorRemoveHandler) {
+            armorRemoveHandler.onArmorRemoved(player, stack);
+        }
+    }
+
 }

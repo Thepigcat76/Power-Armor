@@ -14,28 +14,27 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
-import java.util.function.Supplier;
 
-public record ArmorModuleComponent(NonNullList<ArmorModule> modules, int modulesAmount) {
-    public static final ArmorModuleComponent EMPTY = new ArmorModuleComponent(NonNullList.withSize(8, ArmorModule.EMPTY), 8);
-    public static final Codec<ArmorModuleComponent> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-            NonNullList.codecOf(CodecUtils.registryCodec(PARegistries.ARMOR_MODULE)).fieldOf("modules").forGetter(ArmorModuleComponent::modules),
-            Codec.INT.fieldOf("modules_amount").forGetter(ArmorModuleComponent::modulesAmount)
-    ).apply(inst, ArmorModuleComponent::new));
-    public static final StreamCodec<RegistryFriendlyByteBuf, ArmorModuleComponent> STREAM_CODEC = StreamCodec.composite(
+public record ArmorModulesComponent(NonNullList<ArmorModule> modules, int modulesAmount) {
+    public static final ArmorModulesComponent EMPTY = new ArmorModulesComponent(NonNullList.withSize(8, ArmorModule.EMPTY), 8);
+    public static final Codec<ArmorModulesComponent> CODEC = RecordCodecBuilder.create(inst -> inst.group(
+            NonNullList.codecOf(CodecUtils.registryCodec(PARegistries.ARMOR_MODULE)).fieldOf("modules").forGetter(ArmorModulesComponent::modules),
+            Codec.INT.fieldOf("modules_amount").forGetter(ArmorModulesComponent::modulesAmount)
+    ).apply(inst, ArmorModulesComponent::new));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ArmorModulesComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(NonNullList::createWithCapacity, CodecUtils.registryStreamCodec(PARegistries.ARMOR_MODULE)),
-            ArmorModuleComponent::modules,
+            ArmorModulesComponent::modules,
             ByteBufCodecs.INT,
-            ArmorModuleComponent::modulesAmount,
-            ArmorModuleComponent::new
+            ArmorModulesComponent::modulesAmount,
+            ArmorModulesComponent::new
     );
 
-    public ArmorModuleComponent(NonNullList<ArmorModule> modules) {
+    public ArmorModulesComponent(NonNullList<ArmorModule> modules) {
         this(modules, 8);
     }
 
-    public static ArmorModuleComponent of(ArmorModule ...modules) {
-        return new ArmorModuleComponent(NonNullList.of(PAArmorModules.EMPTY.get(), modules));
+    public static ArmorModulesComponent of(ArmorModule ...modules) {
+        return new ArmorModulesComponent(NonNullList.of(PAArmorModules.EMPTY.get(), modules));
     }
 
     @Override

@@ -15,15 +15,20 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
+import java.util.Set;
+
 public class JetpackArmorModule implements ArmorModule {
+
+    public static final Set<ArmorItem.Type> TYPES = Set.of(ArmorItem.Type.CHESTPLATE);
+
     @Override
     public Item getItem() {
         return PAItems.JETPACK_ARMOR_MODULE.get();
     }
 
     @Override
-    public ArmorItem.Type getArmorType() {
-        return ArmorItem.Type.CHESTPLATE;
+    public Set<ArmorItem.Type> getArmorTypes() {
+        return TYPES;
     }
 
     public int getEnergyUsage(ItemStack stack) {
@@ -32,6 +37,8 @@ public class JetpackArmorModule implements ArmorModule {
 
     @Override
     public void tick(ItemStack stack, Player player) {
+        if (!this.isActive(stack)) return;
+
         Level level = player.level();
 
         var hover = false;//JetpackUtils.isHovering(chest);

@@ -39,6 +39,9 @@ public class EMItemModelProvider extends ItemModelProvider {
         basicItem(PAItems.LASER_ARMOR_MODULE.get());
         basicItem(PAItems.SOLAR_ARMOR_MODULE.get());
         basicItem(PAItems.PLATING_ARMOR_MODULE.get());
+        basicItem(PAItems.NIGHT_VISION_ARMOR_MODULE.get());
+        basicItem(PAItems.ENERGY_ARMOR_MODULE.get());
+        basicItem(PAItems.SPEED_ARMOR_MODULE.get());
 
         overrideItemModel(6, basicItem(PAItems.BATTERY.get(), extend(itemTexture(PAItems.BATTERY.get()), "_0")), PAItemProperties.BATTERY_STAGE,
                 i -> basicItem(PAItems.BATTERY.get(), "_" + i));

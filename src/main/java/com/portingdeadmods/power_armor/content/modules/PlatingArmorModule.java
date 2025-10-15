@@ -19,16 +19,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PlatingArmorModule implements ArmorModule {
+
+    public static final Set<ArmorItem.Type> TYPES = Set.of(ArmorItem.Type.values());
+
     @Override
     public Item getItem() {
         return PAItems.PLATING_ARMOR_MODULE.get();
     }
 
     @Override
-    public @Nullable ArmorItem.Type getArmorType() {
-        return null;
+    public @Nullable Set<ArmorItem.Type> getArmorTypes() {
+        return TYPES;
     }
 
     @Override

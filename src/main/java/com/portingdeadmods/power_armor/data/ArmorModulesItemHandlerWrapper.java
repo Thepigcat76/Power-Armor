@@ -1,8 +1,7 @@
 package com.portingdeadmods.power_armor.data;
 
-import com.portingdeadmods.portingdeadlibs.utils.UniqueArray;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
-import com.portingdeadmods.power_armor.data.components.ArmorModuleComponent;
+import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -79,7 +78,7 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
 
     @Override
     public boolean isItemValid(int i, ItemStack itemStack) {
-        if (i == 0) return itemStack.has(PAComponents.ARMOR_MODULE);
+        if (i == 0) return itemStack.has(PAComponents.ARMOR_MODULES);
 
         ArmorItem.Type armorType;
         if (this.itemStack.getItem() instanceof ArmorItem armorItem) {
@@ -91,7 +90,7 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
         return armorModule != null
                 && !this.getArmorModules().modulesUnsafe().contains(armorModule)
-                && (armorModule.getArmorType() == armorType || armorType == null || armorModule.getArmorType() == null);
+                && (armorType == null || armorModule.getArmorTypes() == null || armorModule.getArmorTypes().contains(armorType));
     }
 
     @Override
@@ -112,11 +111,11 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
                 prevModule.onRemoved(this.itemStack);
             }
         }
-        this.itemStack.set(PAComponents.ARMOR_MODULE.get(), new ArmorModuleComponent(modules, this.getArmorModules().modulesAmount()));
+        this.itemStack.set(PAComponents.ARMOR_MODULES.get(), new ArmorModulesComponent(modules, this.getArmorModules().modulesAmount()));
     }
 
-    private ArmorModuleComponent getArmorModules() {
-        return this.itemStack.getOrDefault(PAComponents.ARMOR_MODULE, ArmorModuleComponent.EMPTY);
+    private ArmorModulesComponent getArmorModules() {
+        return this.itemStack.getOrDefault(PAComponents.ARMOR_MODULES, ArmorModulesComponent.EMPTY);
     }
 
     public ItemStack itemStack() {

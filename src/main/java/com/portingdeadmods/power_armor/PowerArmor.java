@@ -4,6 +4,7 @@ import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.networking.ArmorWidgetOpenClosePayload;
 import com.portingdeadmods.power_armor.networking.ArmorWidgetSetSlotPositionsPayload;
+import com.portingdeadmods.power_armor.networking.SetAttackTypePayload;
 import com.portingdeadmods.power_armor.networking.UpdateInputPayload;
 import com.portingdeadmods.power_armor.registries.*;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
@@ -40,6 +41,7 @@ public final class PowerArmor {
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::registerRegistries);
 
+        PAAttachments.ATTACHMENTS.register(modEventBus);
         PAArmorModules.ARMOR_MODULES.register(modEventBus);
         PAItems.ITEMS.register(modEventBus);
         PABlocks.BLOCKS.register(modEventBus);
@@ -67,6 +69,7 @@ public final class PowerArmor {
         registrar.playToServer(UpdateInputPayload.TYPE, UpdateInputPayload.STREAM_CODEC, UpdateInputPayload::handle);
         registrar.playToServer(ArmorWidgetOpenClosePayload.TYPE, ArmorWidgetOpenClosePayload.STREAM_CODEC, ArmorWidgetOpenClosePayload::handle);
         registrar.playToServer(ArmorWidgetSetSlotPositionsPayload.TYPE, ArmorWidgetSetSlotPositionsPayload.STREAM_CODEC, ArmorWidgetSetSlotPositionsPayload::handle);
+        registrar.playToServer(SetAttackTypePayload.TYPE, SetAttackTypePayload.STREAM_CODEC, SetAttackTypePayload::handle);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -74,16 +77,16 @@ public final class PowerArmor {
                 (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.BATTERY_CAPACITY, PowerArmorConfig.BATTERY_TRANSFER),
                 PAItems.BATTERY.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_CAPACITY, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
                 PAItems.POWER_ARMOR_HELMET.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_CAPACITY, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
                 PAItems.POWER_ARMOR_CHESTPLATE.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_CAPACITY, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
                 PAItems.POWER_ARMOR_LEGGINGS.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_CAPACITY, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
                 PAItems.POWER_ARMOR_BOOTS.get());
 
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getEnergyStorage());
@@ -95,6 +98,10 @@ public final class PowerArmor {
 
     private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue capacity, ModConfigSpec.IntValue transfer) {
         return new ComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity.getAsInt(), transfer.getAsInt());
+    }
+
+    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue transfer) {
+        return new ComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer.getAsInt());
     }
 
     public static ResourceLocation rl(String path) {

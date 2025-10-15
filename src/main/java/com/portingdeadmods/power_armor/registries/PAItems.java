@@ -1,12 +1,14 @@
 package com.portingdeadmods.power_armor.registries;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.PowerArmorConfig;
+import com.portingdeadmods.power_armor.content.items.ArmorModuleItem;
 import com.portingdeadmods.power_armor.content.items.BatteryItem;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
 import com.portingdeadmods.portingdeadlibs.api.utils.PDLDeferredRegisterItems;
 import com.portingdeadmods.power_armor.content.items.PowerArmorItem;
 import com.portingdeadmods.power_armor.data.PAComponents;
-import com.portingdeadmods.power_armor.data.components.ArmorModuleComponent;
+import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -27,8 +29,9 @@ public final class PAItems {
             .stacksTo(1)));
 
     private static final Supplier<Item.Properties> POWER_ARMOR_PROPS = () -> new Item.Properties()
-            .component(PAComponents.ARMOR_MODULE.get(), ArmorModuleComponent.EMPTY)
+            .component(PAComponents.ARMOR_MODULES.get(), ArmorModulesComponent.EMPTY)
             .component(PDLDataComponents.ENERGY.get(), 0)
+            .component(PAComponents.ENERGY_CAPACITY.get(), 64_000)
             .component(PAComponents.DEFAULT_ATTRIBUTES.get(), ItemAttributeModifiers.EMPTY)
             .stacksTo(1);
 
@@ -37,10 +40,13 @@ public final class PAItems {
     public static final DeferredItem<PowerArmorItem> POWER_ARMOR_LEGGINGS = ITEMS.register("power_armor_leggings", () -> new PowerArmorItem(ArmorItem.Type.LEGGINGS, POWER_ARMOR_PROPS.get()));
     public static final DeferredItem<PowerArmorItem> POWER_ARMOR_BOOTS = ITEMS.register("power_armor_boots", () -> new PowerArmorItem(ArmorItem.Type.BOOTS, POWER_ARMOR_PROPS.get()));
 
-    public static final DeferredItem<Item> BLANK_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_blank");
-    public static final DeferredItem<Item> JETPACK_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_jetpack");
-    public static final DeferredItem<Item> LASER_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_laser");
-    public static final DeferredItem<Item> SOLAR_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_solar");
-    public static final DeferredItem<Item> PLATING_ARMOR_MODULE = ITEMS.registerSimpleItem("armor_module_plating");
+    public static final DeferredItem<ArmorModuleItem> BLANK_ARMOR_MODULE = ITEMS.registerItem("armor_module_blank", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> JETPACK_ARMOR_MODULE = ITEMS.registerItem("armor_module_jetpack", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> LASER_ARMOR_MODULE = ITEMS.registerItem("armor_module_laser", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> SOLAR_ARMOR_MODULE = ITEMS.registerItem("armor_module_solar", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> PLATING_ARMOR_MODULE = ITEMS.registerItem("armor_module_plating", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> NIGHT_VISION_ARMOR_MODULE = ITEMS.registerItem("armor_module_night_vision", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> ENERGY_ARMOR_MODULE = ITEMS.registerItem("armor_module_energy", ArmorModuleItem::new);
+    public static final DeferredItem<ArmorModuleItem> SPEED_ARMOR_MODULE = ITEMS.registerItem("armor_module_speed", ArmorModuleItem::new);
 
 }

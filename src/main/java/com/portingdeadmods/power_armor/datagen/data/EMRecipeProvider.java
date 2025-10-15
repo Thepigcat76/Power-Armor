@@ -118,6 +118,57 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_armor_plating", has(PAItems.ARMOR_PLATING))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.BLANK_ARMOR_MODULE, 3)
+                .pattern(" I ")
+                .pattern("ICI")
+                .pattern(" I ")
+                .define('I', PATags.ItemTags.PLATES_IRON)
+                .define('C', PATags.ItemTags.PLATES_COPPER)
+                .unlockedBy("has_iron_plates", has(PATags.ItemTags.PLATES_IRON))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.SOLAR_ARMOR_MODULE)
+                .pattern("GGG")
+                .pattern("LBL")
+                .pattern("PPP")
+                .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                .define('B', PAItems.BLANK_ARMOR_MODULE)
+                .define('L', Tags.Items.GEMS_LAPIS)
+                .define('P', PATags.ItemTags.PLATES_COPPER)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.PLATING_ARMOR_MODULE)
+                .pattern("IPI")
+                .pattern("PBP")
+                .pattern("IPI")
+                .define('I', PATags.ItemTags.PLATES_IRON)
+                .define('P', PAItems.ARMOR_PLATING)
+                .define('B', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.JETPACK_ARMOR_MODULE)
+                .pattern("P P")
+                .pattern("PBP")
+                .pattern("R R")
+                .define('P', PATags.ItemTags.PLATES_IRON)
+                .define('R', Tags.Items.DUSTS_REDSTONE)
+                .define('B', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.LASER_ARMOR_MODULE)
+                .pattern("  R")
+                .pattern("PB ")
+                .pattern("IP ")
+                .define('R', Tags.Items.DUSTS_REDSTONE)
+                .define('P', PATags.ItemTags.PLATES_IRON)
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('B', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
         output.accept(
                 PowerArmor.rl("copper_plate"),
                 new CompressingRecipe(IngredientWithCount.of(Tags.Items.INGOTS_COPPER), 200, PAItems.COPPER_PLATE.toStack()),

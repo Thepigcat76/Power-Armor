@@ -3,10 +3,7 @@ package com.portingdeadmods.power_armor.registries;
 import com.portingdeadmods.power_armor.PARegistries;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
-import com.portingdeadmods.power_armor.content.modules.JetpackArmorModule;
-import com.portingdeadmods.power_armor.content.modules.LaserArmorModule;
-import com.portingdeadmods.power_armor.content.modules.PlatingArmorModule;
-import com.portingdeadmods.power_armor.content.modules.SolarArmorModule;
+import com.portingdeadmods.power_armor.content.modules.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -23,5 +20,8 @@ public final class PAArmorModules {
     public static final Supplier<LaserArmorModule> LASER = ARMOR_MODULES.register("laser", LaserArmorModule::new);
     public static final Supplier<SolarArmorModule> SOLAR = ARMOR_MODULES.register("solar", SolarArmorModule::new);
     public static final Supplier<PlatingArmorModule> PLATING = ARMOR_MODULES.register("plating", PlatingArmorModule::new);
+    public static final Supplier<NightVisionArmorModule> NIGHT_VISION = ARMOR_MODULES.register("night_vision", NightVisionArmorModule::new);
+    public static final Supplier<EnergyArmorModule> ENERGY = ARMOR_MODULES.register("energy", EnergyArmorModule::new);
+    public static final Supplier<SpeedArmorModule> SPEED = ARMOR_MODULES.register("speed", SpeedArmorModule::new);
 
 }

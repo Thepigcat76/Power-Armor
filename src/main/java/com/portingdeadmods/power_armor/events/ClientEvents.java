@@ -2,9 +2,12 @@ package com.portingdeadmods.power_armor.events;
 
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.client.InputHandler;
+import com.portingdeadmods.power_armor.client.PAKeybinds;
 import com.portingdeadmods.power_armor.client.sounds.JetpackSound;
+import com.portingdeadmods.power_armor.networking.SetAttackTypePayload;
 import com.portingdeadmods.power_armor.networking.UpdateInputPayload;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
+import com.portingdeadmods.power_armor.registries.PAAttachments;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import com.portingdeadmods.power_armor.utils.VecHelper;
 import net.minecraft.client.Minecraft;
@@ -28,6 +31,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @EventBusSubscriber(modid = PowerArmor.MODID, value = Dist.CLIENT)
 public final class ClientEvents {
+    public static int ATTACK_TYPES_AMOUNT = 1;
+
     private static boolean up = false;
     private static boolean down = false;
     private static boolean forwards = false;
@@ -65,6 +70,23 @@ public final class ClientEvents {
         }
 
         renderParticles();
+
+        if (PAKeybinds.CYCLE_ATTACK_TYPE_DOWN.get().consumeClick()) {
+            cycleAttackType(mc.player, -1);
+        }
+
+        if (PAKeybinds.CYCLE_ATTACK_TYPE_UP.get().consumeClick()) {
+            cycleAttackType(mc.player, +1);
+        }
+
+    }
+
+    private static void cycleAttackType(Player player, int change) {
+        int index = player.getData(PAAttachments.ATTACK_TYPE);
+        int newIndex = index + change < 0 ? ATTACK_TYPES_AMOUNT - 1 : (index + change >= ATTACK_TYPES_AMOUNT ? 0 : index + change);
+        player.setData(PAAttachments.ATTACK_TYPE, newIndex);
+        PacketDistributor.sendToServer(new SetAttackTypePayload(newIndex));
+
     }
 
     private static void update(boolean up, boolean down, boolean forwards, boolean backwards, boolean left, boolean right, boolean sprint) {

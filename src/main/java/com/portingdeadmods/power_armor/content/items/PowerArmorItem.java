@@ -5,7 +5,7 @@ import com.portingdeadmods.portingdeadlibs.api.items.IEnergyItem;
 import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.data.PAComponents;
-import com.portingdeadmods.power_armor.data.components.ArmorModuleComponent;
+import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import com.portingdeadmods.power_armor.registries.PAArmorMaterials;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.registries.PATranslations;
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class PowerArmorItem extends ArmorItem implements IEnergyItem {
+public class PowerArmorItem extends ArmorItem implements IEnergyItem, ArmorRemoveHandler {
     public PowerArmorItem(Type type, Properties properties) {
         super(PAArmorMaterials.POWER_ARMOR.getDelegate(), type, properties);
     }
@@ -65,7 +65,7 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
 
     @Override
     public @NotNull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
-        return Optional.of(new PowerArmorTooltipComponent(stack.get(PAComponents.ARMOR_MODULE)));
+        return Optional.of(new PowerArmorTooltipComponent(stack.get(PAComponents.ARMOR_MODULES)));
     }
 
     @Override
@@ -75,8 +75,8 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
         if (entity instanceof Player player) {
             ItemStack itemBySlot = player.getItemBySlot(this.type.getSlot());
             if (itemBySlot == stack) {
-                ArmorModuleComponent armorModuleComponent = stack.get(PAComponents.ARMOR_MODULE);
-                for (ArmorModule module : armorModuleComponent.modulesUnsafe()) {
+                ArmorModulesComponent armorModulesComponent = stack.get(PAComponents.ARMOR_MODULES);
+                for (ArmorModule module : armorModulesComponent.modulesUnsafe()) {
                     module.tick(stack, player);
                 }
             }
@@ -114,4 +114,8 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem {
         return innerModel ? ARMOR_TEXTURE_LAYER_2 : ARMOR_TEXTURE_LAYER_1;
     }
 
+    @Override
+    public void onArmorRemoved(Player player, ItemStack armorItem) {
+        armorItem.get(PAComponents.ARMOR_MODULES).modulesUnsafe().forEach(m -> m.onArmorUnequipped(player, armorItem));
+    }
 }

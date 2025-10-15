@@ -8,10 +8,12 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 public interface ArmorModule {
     ArmorModule EMPTY = new ArmorModule() {
@@ -26,8 +28,8 @@ public interface ArmorModule {
         }
 
         @Override
-        public @org.jetbrains.annotations.Nullable ArmorItem.Type getArmorType() {
-            return null;
+        public Set<ArmorItem.Type> getArmorTypes() {
+            return Set.of();
         }
     };
 
@@ -37,7 +39,8 @@ public interface ArmorModule {
         return Utils.registryTranslation(PARegistries.ARMOR_MODULE, this);
     }
 
-    @Nullable ArmorItem.Type getArmorType();
+    @Nullable
+    Set<ArmorItem.Type> getArmorTypes();
 
     default void addTooltip(ItemStack stack, List<Component> tooltipComponents) {
     }
@@ -53,6 +56,14 @@ public interface ArmorModule {
     }
 
     default void onRemoved(ItemStack armorItem) {
+    }
+
+    default void onArmorUnequipped(Player player, ItemStack armorItem) {
+    }
+
+    default boolean isActive(ItemStack armorItem) {
+        IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
+        return energyStorage.getEnergyStored() > 0;
     }
 
     static @Nullable ArmorModule byItem(Item item) {
