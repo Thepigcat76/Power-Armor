@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "power_armor:item/battery_0",
+      "predicate": {
+        "power_armor:battery_stage": 0.0
+      }
+    },
+    {
+      "model": "power_armor:item/battery_1",
+      "predicate": {
+        "power_armor:battery_stage": 1.0
+      }
+    },
+    {
+      "model": "power_armor:item/battery_2",
+      "predicate": {
+        "power_armor:battery_stage": 2.0
+      }
+    },
+    {
+      "model": "power_armor:item/battery_3",
+      "predicate": {
+        "power_armor:battery_stage": 3.0
+      }
+    },
+    {
+      "model": "power_armor:item/battery_4",
+      "predicate": {
+        "power_armor:battery_stage": 4.0
+      }
+    },
+    {
+      "model": "power_armor:item/battery_5",
+      "predicate": {
+        "power_armor:battery_stage": 5.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "power_armor:item/battery_0"
+  }
+}

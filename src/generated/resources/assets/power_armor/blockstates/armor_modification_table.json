@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "power_armor:block/armor_modification_table"
+    }
+  }
+}

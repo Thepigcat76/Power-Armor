@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron_plates": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/iron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "power_armor:armor_modification_table"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_iron_plates"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "power_armor:armor_modification_table"
+    ]
+  }
+}

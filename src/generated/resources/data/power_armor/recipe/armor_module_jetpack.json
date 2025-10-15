@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "power_armor:armor_module_blank"
+    },
+    "P": {
+      "tag": "c:plates/iron"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PBP",
+    "R R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "power_armor:armor_module_jetpack"
+  }
+}

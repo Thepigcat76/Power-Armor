@@ -1,0 +1,7 @@
+// 1.21.1	2025-09-11T16:13:59.321690708	Block States: power_armor
+960e22fae812f35d8ef5aca1b3af6e87f393141d assets/power_armor/blockstates/armor_modification_table.json
+e01a7233ad55a21685960642a3489805d399222b assets/power_armor/blockstates/compressor.json
+e72984d3c552f08a776148b1dbd1b0d9191b77b7 assets/power_armor/blockstates/machine_frame.json
+c908440bb9f19b0a87b5cb25555a9f2269de9e40 assets/power_armor/models/block/compressor.json
+3228015962a8e1face9f5d9ce8d78d1fafa81f39 assets/power_armor/models/block/compressor_active.json
+f758acfdb9ea493dcc2500abe99fd5769ac08f74 assets/power_armor/models/block/machine_frame.json

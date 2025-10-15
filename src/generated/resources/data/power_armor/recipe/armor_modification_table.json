@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "power_armor:battery"
+    },
+    "F": {
+      "item": "power_armor:machine_frame"
+    },
+    "P": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "pattern": [
+    "PPP",
+    " B ",
+    " F "
+  ],
+  "result": {
+    "count": 1,
+    "id": "power_armor:armor_modification_table"
+  }
+}

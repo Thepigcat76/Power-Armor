@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "power_armor:block/machine_frame"
+    }
+  }
+}

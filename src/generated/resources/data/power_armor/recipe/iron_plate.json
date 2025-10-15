@@ -1,0 +1,11 @@
+{
+  "type": "power_armor:compressing",
+  "duration": 200,
+  "ingredient": {
+    "tag": "c:ingots/iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "power_armor:iron_plate"
+  }
+}

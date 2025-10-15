@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "power_armor:battery"
+    },
+    "P": {
+      "item": "power_armor:armor_plating"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PBP",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "power_armor:power_armor_chestplate"
+  }
+}
