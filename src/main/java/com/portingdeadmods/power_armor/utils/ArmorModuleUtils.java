@@ -1,14 +1,20 @@
 package com.portingdeadmods.power_armor.utils;
 
+import com.portingdeadmods.power_armor.api.AttackType;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.api.modules.AttackArmorModule;
 import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
+import com.portingdeadmods.power_armor.registries.PAAttachments;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class ArmorModuleUtils {
@@ -38,8 +44,14 @@ public final class ArmorModuleUtils {
     }
 
     public static <M> Stream<M> getModules(Player player, Class<M> clazz) {
-        return getModules(player).filter(clazz::isInstance).map(module -> (M) module);
+        return getModules(player).filter(clazz::isInstance).map(clazz::cast);
     }
 
+    public static AttackType getAttackType(Player player) {
+        int index = player.getData(PAAttachments.ATTACK_TYPE);
+        if (index == 0) return AttackType.VANILLA;
+        List<AttackArmorModule> modules = ArmorModuleUtils.getModules(player, AttackArmorModule.class).toList();
+        return modules.stream().map(AttackArmorModule::getAttackType).toList().get(index - 1);
+    }
 
 }

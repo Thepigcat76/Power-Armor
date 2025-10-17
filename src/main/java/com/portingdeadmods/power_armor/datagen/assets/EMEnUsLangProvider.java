@@ -3,6 +3,7 @@ package com.portingdeadmods.power_armor.datagen.assets;
 import com.portingdeadmods.portingdeadlibs.utils.Utils;
 import com.portingdeadmods.power_armor.PARegistries;
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.registries.PABlocks;
@@ -10,9 +11,11 @@ import com.portingdeadmods.power_armor.registries.PAItems;
 import com.portingdeadmods.power_armor.registries.PATranslations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class EMEnUsLangProvider extends LanguageProvider {
     public EMEnUsLangProvider(PackOutput output) {
@@ -56,10 +59,27 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addArmorModule(PAArmorModules.ENERGY, "Energy");
         addArmorModule(PAArmorModules.SPEED, "Speed");
 
+        addConfig(PowerArmorConfig.ARMOR_MODIFICATION_TABLE_CAPACITY, "Armor Modification Table Energy Capacity");
+        addConfig(PowerArmorConfig.BATTERY_CAPACITY, "Battery Energy Capacity");
+        addConfig(PowerArmorConfig.BATTERY_TRANSFER, "Battery Energy Transfer");
+        addConfig(PowerArmorConfig.COMPRESSOR_CAPACITY, "Compressor Energy Capacity");
+        addConfig(PowerArmorConfig.COMPRESSOR_USAGE, "Compressor Energy Usage");
+        addConfig(PowerArmorConfig.POWER_ARMOR_CAPACITY, "Power Armor Energy Capacity");
+        addConfig(PowerArmorConfig.POWER_ARMOR_TRANSFER, "Power Armor Energy Transfer");
+        addConfig(PowerArmorConfig.POWER_ARMOR_JETPACK_USAGE, "Jetpack Armor Module Energy Usage");
+        addConfig(PowerArmorConfig.POWER_ARMOR_NIGHT_VISION_USAGE, "Night Vision Armor Module Energy Usage");
+        addConfig(PowerArmorConfig.POWER_ARMOR_PLATING_USAGE, "Plating Armor Module Energy Usage");
+        addConfig(PowerArmorConfig.POWER_ARMOR_SOLAR_PRODUCTION, "Solar Armor Module Energy Production");
+        addConfig(PowerArmorConfig.POWER_ARMOR_SPEED_USAGE, "Speed Armor Module Energy Usage");
+
     }
 
     private void addArmorModule(Supplier<? extends ArmorModule> module, String translation) {
         add("armor_module.%s.%s".formatted(PowerArmor.MODID, PARegistries.ARMOR_MODULE.getKey(module.get()).getPath()), translation);
+    }
+
+    private void addConfig(ModConfigSpec.ConfigValue<?> configValue, String translation) {
+        add(PowerArmor.MODID + ".configuration." + String.join("", configValue.getPath()), translation);
     }
 
 }

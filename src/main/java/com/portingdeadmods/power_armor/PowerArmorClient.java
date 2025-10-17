@@ -2,6 +2,7 @@ package com.portingdeadmods.power_armor;
 
 import com.portingdeadmods.power_armor.client.items.ClientPowerArmorTooltip;
 import com.portingdeadmods.power_armor.client.overlays.AttackSelectorOverlay;
+import com.portingdeadmods.power_armor.client.overlays.EnergyBarOverlay;
 import com.portingdeadmods.power_armor.client.screens.ArmorModificationTableScreen;
 import com.portingdeadmods.power_armor.client.screens.CompressorScreen;
 import com.portingdeadmods.power_armor.content.items.PowerArmorTooltipComponent;
@@ -46,6 +47,7 @@ public final class PowerArmorClient {
 
     private void registerClientOverlays(RegisterGuiLayersEvent event) {
         event.registerAboveAll(PowerArmor.rl("attack_selector"), new AttackSelectorOverlay());
+        event.registerAboveAll(PowerArmor.rl("energy_bar"), new EnergyBarOverlay());
     }
 
 }

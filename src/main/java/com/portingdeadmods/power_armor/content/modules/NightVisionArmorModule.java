@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor.content.modules;
 
+import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.registries.PAItems;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,8 +27,16 @@ public class NightVisionArmorModule implements ArmorModule {
     }
 
     @Override
+    public int getEnergyUsage(ItemStack stack) {
+        return PowerArmorConfig.POWER_ARMOR_NIGHT_VISION_USAGE.getAsInt();
+    }
+
+    @Override
     public void tick(ItemStack armorItem, Player player) {
-        if (!this.isActive(armorItem)) return;
+        if (!this.isActive(armorItem)) {
+            player.removeEffect(MobEffects.NIGHT_VISION);
+            return;
+        }
 
         player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false, false));
     }

@@ -45,8 +45,6 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
                     this.setStackInSlot(0, itemStack.copyWithCount(1));
                 }
                 return count - 1 <= 0 ? ItemStack.EMPTY : itemStack.copyWithCount(count - 1);
-            } else {
-
             }
         }
         if (!simulate) {
@@ -80,6 +78,8 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
     public boolean isItemValid(int i, ItemStack itemStack) {
         if (i == 0) return itemStack.has(PAComponents.ARMOR_MODULES);
 
+        if (!this.itemStack.has(PAComponents.ARMOR_MODULES)) return false;
+
         ArmorItem.Type armorType;
         if (this.itemStack.getItem() instanceof ArmorItem armorItem) {
             armorType = armorItem.getType();
@@ -99,6 +99,9 @@ public class ArmorModulesItemHandlerWrapper implements IItemHandlerModifiable, I
             this.itemStack = itemStack.copy();
             return;
         }
+
+        if (!itemStack.isEmpty() && !this.itemStack.has(PAComponents.ARMOR_MODULES)) return;
+
         ArmorModule armorModule = ArmorModule.byItem(itemStack.getItem());
         NonNullList<ArmorModule> modules = this.getArmorModules().modules();
         if (modules.size() > i - 1) {

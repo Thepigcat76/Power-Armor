@@ -16,10 +16,25 @@ public final class PowerArmorConfig {
 
     public static final ModConfigSpec.IntValue POWER_ARMOR_CAPACITY = BUILDER
             .comment("Energy capacity of the power armor item")
-            .defineInRange("battery_capacity", 64_000, 0, Integer.MAX_VALUE);
+            .defineInRange("power_armor_capacity", 64_000, 0, Integer.MAX_VALUE);
     public static final ModConfigSpec.IntValue POWER_ARMOR_TRANSFER = BUILDER
             .comment("Amount of energy the power armor item can transfer per tick")
-            .defineInRange("battery_transfer", 32, 0, Integer.MAX_VALUE);
+            .defineInRange("power_armor_transfer", 32, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_PLATING_USAGE = BUILDER
+            .comment("Amount of energy used by the Power Armor Plating Module when the player takes damage")
+            .defineInRange("power_armor_plating_usage", 200, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_NIGHT_VISION_USAGE = BUILDER
+            .comment("Amount of energy used by the Power Armor Night Vision Module")
+            .defineInRange("power_armor_night_vision_usage", 1, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_SPEED_USAGE = BUILDER
+            .comment("Amount of energy used by the Power Armor Speed Module when the player is running")
+            .defineInRange("power_armor_speed_usage", 2, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_JETPACK_USAGE = BUILDER
+            .comment("Amount of energy used by the Power Armor Jetpack Module when the player is flying")
+            .defineInRange("power_armor_jetpack_usage", 2, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_SOLAR_PRODUCTION = BUILDER
+            .comment("Amount of energy produced by the Power Armor Solar Module when the sun is shining")
+            .defineInRange("power_armor_solar_production", 4, 0, Integer.MAX_VALUE);
 
     public static final ModConfigSpec.IntValue COMPRESSOR_CAPACITY = BUILDER
             .comment("Energy capacity of the compressor")

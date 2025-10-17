@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor.content.modules;
 
+import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.registries.PAItems;
 import net.minecraft.network.chat.Component;
@@ -28,6 +29,10 @@ public class SolarArmorModule implements ArmorModule {
         return TYPES;
     }
 
+    public int getEnergyProduction(ItemStack stack) {
+        return PowerArmorConfig.POWER_ARMOR_SOLAR_PRODUCTION.getAsInt();
+    }
+
     @Override
     public void tick(ItemStack armorItem, Player player) {
         if (!this.isActive(armorItem)) return;
@@ -35,11 +40,11 @@ public class SolarArmorModule implements ArmorModule {
         Iterable<ItemStack> armorStacks = player.getArmorSlots();
 
         Level level = player.level();
-        if (!level.isNight() && level.getGameTime() % 5 == 0 && !level.isClientSide()) {
+        if (!level.isNight() && !level.isClientSide()) {
             for (ItemStack stack : armorStacks) {
                 IEnergyStorage energyStorage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
                 if (energyStorage != null) {
-                    energyStorage.receiveEnergy(20, false);
+                    energyStorage.receiveEnergy(this.getEnergyProduction(armorItem), false);
                 }
             }
         }

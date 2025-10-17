@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor.content.modules;
 
+import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.registries.PAItems;
@@ -31,8 +32,9 @@ public class JetpackArmorModule implements ArmorModule {
         return TYPES;
     }
 
+    @Override
     public int getEnergyUsage(ItemStack stack) {
-        return 10; // TODO: Use config value
+        return PowerArmorConfig.POWER_ARMOR_JETPACK_USAGE.getAsInt();
     }
 
     @Override
@@ -56,17 +58,15 @@ public class JetpackArmorModule implements ArmorModule {
             double sprintFuel = 2.1D;
             double usage = player.isSprinting() || InputHandler.isHoldingSprint(player) ? this.getEnergyUsage(stack) * sprintFuel : this.getEnergyUsage(stack);
 
-            IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
-
             if (!player.isCreative()) {
-                energy.extractEnergy((int) usage, false);
+                this.extractEnergy(stack, (int) usage);
             }
 
             if (hover && player.isFallFlying()) {
                 player.stopFallFlying();
             }
 
-            if (energy.getEnergyStored() > 0 || player.isCreative()) {
+            if (this.isActive(stack) || player.isCreative()) {
                 double throttle = 1D;//JetpackUtils.getThrottle(stack);
                 double sprintSpeedVert = 1.05D;
                 double verticalSprintMulti = motionY >= 0 && InputHandler.isHoldingSprint(player) ? sprintSpeedVert : 1.0D;

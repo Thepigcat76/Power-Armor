@@ -1,7 +1,11 @@
 package com.portingdeadmods.power_armor.events;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.api.AttackType;
+import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.content.items.ArmorRemoveHandler;
+import com.portingdeadmods.power_armor.data.PAComponents;
+import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -11,8 +15,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.event.entity.living.ArmorHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 @EventBusSubscriber(modid = PowerArmor.MODID)
 public final class CommonEvents {
@@ -35,6 +44,37 @@ public final class CommonEvents {
         if (event.getEntity() instanceof Player player && stack.getItem() instanceof ArmorRemoveHandler armorRemoveHandler) {
             armorRemoveHandler.onArmorRemoved(player, stack);
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerAttacked(LivingDamageEvent.Post event) {
+        if (event.getEntity() instanceof Player player) {
+            for (ItemStack stack : player.getArmorSlots()) {
+                ArmorModulesComponent modules = stack.getOrDefault(PAComponents.ARMOR_MODULES, ArmorModulesComponent.EMPTY);
+                for (ArmorModule armorModule : modules.modulesUnsafe()) {
+                    armorModule.onPlayerAttacked(player, stack);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
+        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
+
+        if (type.vanilla()) return;
+
+        type.handle(event.getEntity(), null, event.getHand());
+
+    }
+
+    @SubscribeEvent
+    public static void onHit(AttackEntityEvent event) {
+        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
+
+        if (type.vanilla()) return;
+
+        type.handle(event.getEntity(), event.getTarget(), event.getEntity().swingingArm);
     }
 
 }

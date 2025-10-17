@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class LaserArmorModule implements AttackArmorModule {
     public static final ResourceLocation LASER_ATTACK_SPRITE = PowerArmor.rl("laser_attack");
+    public static final AttackType LASER = new AttackType(LASER_ATTACK_SPRITE, Component.literal("Laser"));
     public static final Set<ArmorItem.Type> TYPES = Set.of(ArmorItem.Type.CHESTPLATE);
 
     @Override
@@ -29,7 +30,7 @@ public class LaserArmorModule implements AttackArmorModule {
 
     @Override
     public AttackType getAttackType() {
-        return new AttackType(LASER_ATTACK_SPRITE, Component.literal("Laser"));
+        return LASER;
     }
 
 }

@@ -42,6 +42,10 @@ public interface ArmorModule {
     @Nullable
     Set<ArmorItem.Type> getArmorTypes();
 
+    default int getEnergyUsage(ItemStack stack) {
+        return 0;
+    }
+
     default void addTooltip(ItemStack stack, List<Component> tooltipComponents) {
     }
 
@@ -61,9 +65,22 @@ public interface ArmorModule {
     default void onArmorUnequipped(Player player, ItemStack armorItem) {
     }
 
+    default void onPlayerAttacked(Player player, ItemStack armorItem) {
+
+    }
+
     default boolean isActive(ItemStack armorItem) {
         IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
-        return energyStorage.getEnergyStored() > 0;
+        return energyStorage.getEnergyStored() >= this.getEnergyUsage(armorItem);
+    }
+
+    default void extractEnergy(ItemStack armorItem) {
+        this.extractEnergy(armorItem, this.getEnergyUsage(armorItem));
+    }
+
+    default void extractEnergy(ItemStack armorItem, int usage) {
+        IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
+        energyStorage.extractEnergy(usage, false);
     }
 
     static @Nullable ArmorModule byItem(Item item) {
