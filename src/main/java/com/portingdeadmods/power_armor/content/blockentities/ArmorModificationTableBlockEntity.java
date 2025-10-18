@@ -22,6 +22,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -33,6 +35,16 @@ public class ArmorModificationTableBlockEntity extends ContainerBlockEntity impl
         super(PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), blockPos, blockState);
         addEnergyStorage(PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt());
         this.itemHandler = new ArmorModulesItemHandlerWrapper(ItemStack.EMPTY);
+    }
+
+    @Override
+    public void commonTick() {
+        IEnergyStorage energyStorage = this.itemHandler.itemStack().getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energyStorage != null) {
+            IEnergyStorage beEnergyStorage = this.getEnergyStorage();
+            int extracted = beEnergyStorage.extractEnergy(PowerArmorConfig.POWER_ARMOR_TRANSFER.getAsInt(), false);
+            energyStorage.receiveEnergy(extracted, false);
+        }
     }
 
     @Override

@@ -26,6 +26,9 @@ public final class PowerArmorConfig {
     public static final ModConfigSpec.IntValue POWER_ARMOR_NIGHT_VISION_USAGE = BUILDER
             .comment("Amount of energy used by the Power Armor Night Vision Module")
             .defineInRange("power_armor_night_vision_usage", 1, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue POWER_ARMOR_ENERGY_MODULE_MULTIPLIER = BUILDER
+            .comment("Multiplier of energy capacity, when Energy Armor Module is installed")
+            .defineInRange("power_armor_energy_module_multiplier", 4, 0, Integer.MAX_VALUE);
     public static final ModConfigSpec.IntValue POWER_ARMOR_SPEED_USAGE = BUILDER
             .comment("Amount of energy used by the Power Armor Speed Module when the player is running")
             .defineInRange("power_armor_speed_usage", 2, 0, Integer.MAX_VALUE);

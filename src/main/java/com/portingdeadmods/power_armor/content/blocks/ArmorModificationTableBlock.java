@@ -33,7 +33,7 @@ public class ArmorModificationTableBlock extends ContainerBlock {
 
     @Override
     public boolean tickingEnabled() {
-        return false;
+        return true;
     }
 
     @Override

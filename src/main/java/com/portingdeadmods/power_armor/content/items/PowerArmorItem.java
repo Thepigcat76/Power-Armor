@@ -89,7 +89,7 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem, ArmorRemov
         if (!tooltipFlag.hasShiftDown()) {
             tooltip.add(Component.literal("<Press SHIFT for more info>").withStyle(ChatFormatting.GRAY));
         }
-        tooltip.add(PATranslations.BATTERY_TOOLTIP.component(stack.get(PDLDataComponents.ENERGY), this.getEnergyCapacity())
+        tooltip.add(PATranslations.BATTERY_TOOLTIP.component(stack.get(PDLDataComponents.ENERGY), stack.getOrDefault(PAComponents.ENERGY_CAPACITY, this.getEnergyCapacity()))
                 .withColor(FastColor.ARGB32.color(255, 245, 192, 89)));
     }
 

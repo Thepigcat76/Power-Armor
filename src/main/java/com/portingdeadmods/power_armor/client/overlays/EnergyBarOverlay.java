@@ -15,22 +15,24 @@ public class EnergyBarOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        int width = 96;
+        int width = 80;
         int height = 12;
 
-        int x = guiGraphics.guiWidth() - width;
-        int y = guiGraphics.guiHeight() - height - 8;
+        int x = guiGraphics.guiWidth() - width - 8;
+        int y = guiGraphics.guiHeight() - height - 4;
 
         EnergyStorageWrapper wrapper = ArmorUtils.getEnergy(Minecraft.getInstance().player);
-
-        guiGraphics.blitSprite(ENERGY_BAR_EMPTY_SPRITE, width, height, 0, 0, x, y, width, height);
         int energyStored = wrapper.getEnergyStored();
         int maxStored = wrapper.getEnergyCapacity();
-        int progress = (int)((float)width * ((float)energyStored / (float)maxStored));
-        guiGraphics.blitSprite(ENERGY_BAR_SPRITE, width, height, width - progress, 0, x + width - progress, y, progress, height);
 
-        String text = "%.0f%%".formatted(((float) energyStored / maxStored) * 100f);
-        guiGraphics.drawString(Minecraft.getInstance().font, text, x - Minecraft.getInstance().font.width(text) - 1, y + 2, -1);
+        if (maxStored != 0) {
+            guiGraphics.blitSprite(ENERGY_BAR_EMPTY_SPRITE, width, height, 0, 0, x, y, width, height);
+            int progress = (int) ((float) width * ((float) energyStored / (float) maxStored));
+            guiGraphics.blitSprite(ENERGY_BAR_SPRITE, width, height, width - progress, 0, x + width - progress, y, progress, height);
+
+            String text = "%.0f%%".formatted(((float) energyStored / maxStored) * 100f);
+            guiGraphics.drawString(Minecraft.getInstance().font, text, x - Minecraft.getInstance().font.width(text) - 2, y + 2, -1);
+        }
 
     }
 }

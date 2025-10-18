@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.power_armor.capabilities.PAComponentEnergyStorage;
 import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.networking.ArmorWidgetOpenClosePayload;
@@ -93,15 +94,16 @@ public final class PowerArmor {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getItemHandler());
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getItemHandler());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getEnergyStorage());
 
     }
 
     private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue capacity, ModConfigSpec.IntValue transfer) {
-        return new ComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity.getAsInt(), transfer.getAsInt());
+        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity.getAsInt(), transfer.getAsInt());
     }
 
     private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue transfer) {
-        return new ComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer.getAsInt());
+        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer.getAsInt());
     }
 
     public static ResourceLocation rl(String path) {

@@ -1,8 +1,10 @@
 package com.portingdeadmods.power_armor.client.screens;
 
 import com.portingdeadmods.portingdeadlibs.api.client.screens.PanelContainerScreen;
+import com.portingdeadmods.portingdeadlibs.client.screens.widgets.EnergyBarWidget;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.client.screens.widgets.ArmorPanelWidget;
+import com.portingdeadmods.power_armor.client.screens.widgets.PAEnergyBarWidget;
 import com.portingdeadmods.power_armor.content.menus.ArmorModificationTableMenu;
 import com.portingdeadmods.power_armor.content.menus.ArmorSlot;
 import com.portingdeadmods.power_armor.networking.ArmorWidgetSetSlotPositionsPayload;
@@ -17,13 +19,18 @@ public class ArmorModificationTableScreen extends PanelContainerScreen<ArmorModi
 
     public ArmorModificationTableScreen(ArmorModificationTableMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+        this.imageWidth = 186;
         this.imageHeight = 212;
-        this.inventoryLabelY = this.imageHeight - 94;
+        this.titleLabelX = 18;
+        this.inventoryLabelX = 18;
+        this.inventoryLabelY = this.imageHeight - 90;
     }
 
     @Override
     protected void init() {
         super.init();
+
+        addRenderableWidget(new PAEnergyBarWidget(this.leftPos + 4, this.topPos + 10, this.menu.blockEntity, true));
 
         addPanelWidget(new ArmorPanelWidget(this.leftPos + this.imageWidth, this.topPos + 2 + 2));
 

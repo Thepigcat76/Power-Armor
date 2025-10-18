@@ -71,6 +71,7 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addConfig(PowerArmorConfig.POWER_ARMOR_PLATING_USAGE, "Plating Armor Module Energy Usage");
         addConfig(PowerArmorConfig.POWER_ARMOR_SOLAR_PRODUCTION, "Solar Armor Module Energy Production");
         addConfig(PowerArmorConfig.POWER_ARMOR_SPEED_USAGE, "Speed Armor Module Energy Usage");
+        addConfig(PowerArmorConfig.POWER_ARMOR_ENERGY_MODULE_MULTIPLIER, "Energy Armor Module Energy Capacity Multiplier");
 
     }
 

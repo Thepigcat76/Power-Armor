@@ -41,32 +41,46 @@ public class ArmorModificationTableMenu extends PDLAbstractContainerMenu<ArmorMo
 
         this.armorSlots = new ArrayList<>();
 
-        addSlot(new SlotItemHandler(blockEntity.getItemHandler(), 0, 80, 57));
+        addSlot(new SlotItemHandler(blockEntity.getItemHandler(), 0, 90, 57));
 
         for (int i = 0; i < 4; i++) {
-            int x = 22 + (i == 0 || i == 3 ? 4 : 0);
+            int x = 32 + (i == 0 || i == 3 ? 4 : 0);
             addSlot(new SlotItemHandler(blockEntity.getItemHandler(), i + 1, x, 18 + i * 26));
         }
 
         for (int i = 0; i < 4; i++) {
-            int x = 138 - (i == 0 || i == 3 ? 4 : 0);
+            int x = 148 - (i == 0 || i == 3 ? 4 : 0);
             addSlot(new SlotItemHandler(blockEntity.getItemHandler(), i + 5, x, 18 + i * 26));
         }
 
-        addPlayerInventory(inv, 132);
-        addPlayerHotbar(inv, 190);
+        addPlayerInventory(inv, 10, 132);
+        addPlayerHotbar(inv, 10, 190);
 
         NonNullList<ItemStack> armor = inv.armor;
         int index = this.slots.stream().mapToInt(Slot::getSlotIndex).max().getAsInt();
         for (int i = 0; i < armor.size(); i++) {
             EquipmentSlot equipmentSlot = SLOT_IDS[i];
             ResourceLocation resourcelocation = TEXTURE_EMPTY_SLOTS.get(equipmentSlot);
-            ArmorSlot slot = new ArmorSlot(inv, inv.player, equipmentSlot, 39 - i, 179, 46 + i * 20, resourcelocation);
+            ArmorSlot slot = new ArmorSlot(inv, inv.player, equipmentSlot, 39 - i, 189, 46 + i * 20, resourcelocation);
             slot.setActive(true);
             this.addSlot(slot);
             this.armorSlots.add(slot);
         }
 
+    }
+
+    protected void addPlayerInventory(Inventory playerInventory, int xOffset, int y) {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, xOffset + 8 + l * 18, y + i * 18));
+            }
+        }
+    }
+
+    protected void addPlayerHotbar(Inventory playerInventory, int xOffset, int y) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, xOffset+8 + i * 18, y));
+        }
     }
 
     public List<ArmorSlot> getArmorSlots() {
