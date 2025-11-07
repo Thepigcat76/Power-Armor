@@ -19,12 +19,12 @@ public class BatteryItem extends Item implements IEnergyItem {
 
     @Override
     public int getEnergyCapacity() {
-        return PowerArmorConfig.BATTERY_CAPACITY.getAsInt();
+        return PowerArmorConfig.batteryEnergyCapacity;
     }
 
     @Override
     public int getMaxTransfer() {
-        return PowerArmorConfig.BATTERY_TRANSFER.getAsInt();
+        return PowerArmorConfig.batteryEnergyTransfer;
     }
 
     @Override

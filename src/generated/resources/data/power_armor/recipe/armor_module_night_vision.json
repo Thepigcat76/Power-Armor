@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "tag": "c:dusts/glowstone"
+    },
+    "G": {
+      "tag": "c:glass_blocks/colorless"
+    },
+    "M": {
+      "item": "power_armor:armor_module_blank"
+    }
+  },
+  "pattern": [
+    " D ",
+    "GMG",
+    " D "
+  ],
+  "result": {
+    "count": 1,
+    "id": "power_armor:armor_module_night_vision"
+  }
+}

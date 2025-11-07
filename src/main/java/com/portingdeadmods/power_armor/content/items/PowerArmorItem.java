@@ -40,12 +40,12 @@ public class PowerArmorItem extends ArmorItem implements IEnergyItem, ArmorRemov
 
     @Override
     public int getEnergyCapacity() {
-        return PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt();
+        return PowerArmorConfig.powerArmorEnergyCapacity;
     }
 
     @Override
     public int getMaxTransfer() {
-        return PowerArmorConfig.POWER_ARMOR_TRANSFER.getAsInt();
+        return PowerArmorConfig.powerArmorEnergyTransfer;
     }
 
     @Override

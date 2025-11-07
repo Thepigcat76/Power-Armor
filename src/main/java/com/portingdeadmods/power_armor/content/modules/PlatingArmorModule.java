@@ -51,7 +51,7 @@ public class PlatingArmorModule implements ArmorModule {
 
     @Override
     public int getEnergyUsage(ItemStack stack) {
-        return PowerArmorConfig.POWER_ARMOR_PLATING_USAGE.getAsInt();
+        return PowerArmorConfig.powerArmorPlatingEnergyUsage;
     }
 
     @Override

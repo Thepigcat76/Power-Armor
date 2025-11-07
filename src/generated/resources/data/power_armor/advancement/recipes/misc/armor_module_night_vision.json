@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_armor_module": {
+      "conditions": {
+        "items": [
+          {
+            "items": "power_armor:armor_module_blank"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "power_armor:armor_module_night_vision"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_armor_module"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "power_armor:armor_module_night_vision"
+    ]
+  }
+}

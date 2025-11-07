@@ -15,6 +15,7 @@ import org.lwjgl.glfw.GLFW;
 public final class PAKeybinds {
     public static final Lazy<KeyMapping> CYCLE_ATTACK_TYPE_UP = keyBind("Cycle Attack Type Up", GLFW.GLFW_KEY_K);
     public static final Lazy<KeyMapping> CYCLE_ATTACK_TYPE_DOWN = keyBind("Cycle Attack Type Down", GLFW.GLFW_KEY_M);
+    public static final Lazy<KeyMapping> LASER_ATTACK = keyBind("Laser Attack", GLFW.GLFW_MOUSE_BUTTON_LEFT);
 
     public static Lazy<KeyMapping> keyBind(String name, int key) {
         return Lazy.of(() -> new KeyMapping(name, InputConstants.Type.KEYSYM, key, PowerArmor.MODNAME));
@@ -24,6 +25,7 @@ public final class PAKeybinds {
     public static void registerBindings(RegisterKeyMappingsEvent event) {
         event.register(CYCLE_ATTACK_TYPE_UP.get());
         event.register(CYCLE_ATTACK_TYPE_DOWN.get());
+        event.register(LASER_ATTACK.get());
     }
 
 }

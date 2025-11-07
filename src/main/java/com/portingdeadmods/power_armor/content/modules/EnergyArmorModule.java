@@ -31,7 +31,7 @@ public class EnergyArmorModule implements ArmorModule {
     @Override
     public void onAdded(ItemStack armorItem) {
         if (armorItem.has(PAComponents.ENERGY_CAPACITY)) {
-            armorItem.set(PAComponents.ENERGY_CAPACITY, PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt() * PowerArmorConfig.POWER_ARMOR_ENERGY_MODULE_MULTIPLIER.getAsInt());
+            armorItem.set(PAComponents.ENERGY_CAPACITY, PowerArmorConfig.powerArmorEnergyCapacity * PowerArmorConfig.powerArmorEnergyModuleMultiplier);
         }
     }
 
@@ -40,9 +40,9 @@ public class EnergyArmorModule implements ArmorModule {
         if (armorItem.has(PAComponents.ENERGY_CAPACITY)) {
             IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
             if (energyStorage instanceof PAComponentEnergyStorage energyStorage1) {
-                energyStorage1.setEnergy(Math.min(PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt(), energyStorage.getEnergyStored()));
+                energyStorage1.setEnergy(Math.min(PowerArmorConfig.powerArmorEnergyCapacity, energyStorage.getEnergyStored()));
             }
-            armorItem.set(PAComponents.ENERGY_CAPACITY, PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt());
+            armorItem.set(PAComponents.ENERGY_CAPACITY, PowerArmorConfig.powerArmorEnergyCapacity);
         }
     }
 }

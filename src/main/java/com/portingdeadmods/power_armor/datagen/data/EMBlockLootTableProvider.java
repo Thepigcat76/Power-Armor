@@ -21,6 +21,8 @@ public class EMBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(PABlocks.MACHINE_FRAME.get());
+        dropSelf(PABlocks.COMPRESSOR.get());
+        dropSelf(PABlocks.ARMOR_MODIFICATION_TABLE.get());
     }
 
     @Override

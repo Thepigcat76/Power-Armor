@@ -32,7 +32,6 @@ public final class PowerArmorClient {
         modEventBus.addListener(this::registerClientTooltips);
         modEventBus.addListener(this::registerClientOverlays);
 
-        container.registerConfig(ModConfig.Type.CLIENT, PowerArmorClientConfig.SPEC);
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 

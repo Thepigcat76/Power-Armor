@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.portingdeadlibs.api.config.PDLConfigHelper;
 import com.portingdeadmods.power_armor.capabilities.PAComponentEnergyStorage;
 import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
@@ -57,7 +58,8 @@ public final class PowerArmor {
 
         NeoForge.EVENT_BUS.register(new InputHandler());
 
-        modContainer.registerConfig(ModConfig.Type.COMMON, PowerArmorConfig.SPEC);
+        PDLConfigHelper.registerConfig(PowerArmorConfig.class, ModConfig.Type.COMMON).register(modContainer);
+
     }
 
     private void registerRegistries(NewRegistryEvent event) {
@@ -75,19 +77,19 @@ public final class PowerArmor {
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.BATTERY_CAPACITY, PowerArmorConfig.BATTERY_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.batteryEnergyCapacity, PowerArmorConfig.batteryEnergyTransfer),
                 PAItems.BATTERY.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_HELMET.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_CHESTPLATE.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_LEGGINGS.get());
         event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.POWER_ARMOR_TRANSFER),
+                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_BOOTS.get());
 
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getEnergyStorage());
@@ -98,12 +100,12 @@ public final class PowerArmor {
 
     }
 
-    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue capacity, ModConfigSpec.IntValue transfer) {
-        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity.getAsInt(), transfer.getAsInt());
+    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, int capacity, int transfer) {
+        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity, transfer);
     }
 
-    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, ModConfigSpec.IntValue transfer) {
-        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer.getAsInt());
+    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, int transfer) {
+        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer);
     }
 
     public static ResourceLocation rl(String path) {

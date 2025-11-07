@@ -34,7 +34,7 @@ public class JetpackArmorModule implements ArmorModule {
 
     @Override
     public int getEnergyUsage(ItemStack stack) {
-        return PowerArmorConfig.POWER_ARMOR_JETPACK_USAGE.getAsInt();
+        return PowerArmorConfig.powerArmorJetpackModuleEnergyUsage;
     }
 
     @Override

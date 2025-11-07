@@ -30,7 +30,7 @@ public class SolarArmorModule implements ArmorModule {
     }
 
     public int getEnergyProduction(ItemStack stack) {
-        return PowerArmorConfig.POWER_ARMOR_SOLAR_PRODUCTION.getAsInt();
+        return PowerArmorConfig.powerArmorSolarModuleEnergyProduction;
     }
 
     @Override

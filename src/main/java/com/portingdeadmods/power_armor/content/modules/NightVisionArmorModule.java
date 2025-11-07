@@ -29,7 +29,7 @@ public class NightVisionArmorModule implements ArmorModule {
 
     @Override
     public int getEnergyUsage(ItemStack stack) {
-        return PowerArmorConfig.POWER_ARMOR_NIGHT_VISION_USAGE.getAsInt();
+        return PowerArmorConfig.powerArmorNightVisionEnergyUsage;
     }
 
     @Override

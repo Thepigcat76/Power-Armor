@@ -2,6 +2,7 @@ package com.portingdeadmods.power_armor.content.items;
 
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
+import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
@@ -20,6 +21,11 @@ public class ArmorModuleItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         ArmorModule armorModule = ArmorModule.byItem(this);
+
+        if (armorModule == PAArmorModules.LASER.get()) {
+            tooltipComponents.add(Component.literal("WIP").withStyle(ChatFormatting.RED));
+        }
+
         tooltipComponents.add(Component.literal("Can be applied to:").withStyle(ChatFormatting.GRAY));
         if (armorModule != null && armorModule.getArmorTypes() != null) {
             List<ArmorItem.Type> armorTypes = armorModule.getArmorTypes().stream().sorted(Comparator.comparingInt(ArmorItem.Type::ordinal)).toList();

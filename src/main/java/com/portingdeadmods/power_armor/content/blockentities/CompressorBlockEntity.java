@@ -2,6 +2,7 @@ package com.portingdeadmods.power_armor.content.blockentities;
 
 import com.portingdeadmods.portingdeadlibs.api.blockentities.RedstoneBlockEntity;
 import com.portingdeadmods.portingdeadlibs.api.utils.PDLBlockStateProperties;
+import com.portingdeadmods.portingdeadlibs.utils.capabilities.HandlerUtils;
 import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.content.menus.CompressorMenu;
 import com.portingdeadmods.power_armor.content.recipes.CompressingRecipe;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,15 +42,20 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
     public CompressorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(PABlockEntityTypes.COMPRESSOR.get(), blockPos, blockState);
         // 0 - Input, 1 - Output
-        addItemHandler(2, (slot, stack) -> slot == 0);
-        addEnergyStorage(PowerArmorConfig.COMPRESSOR_CAPACITY.getAsInt());
+        addItemHandler(HandlerUtils::newItemStackHandler, builder -> builder
+                .slots(2)
+                .validator((slot, stack) -> slot == 0)
+                .onChange(this::onItemsChanged));
+        addEnergyStorage(HandlerUtils::newEnergystorage, builder -> builder
+                .maxTransfer(PowerArmorConfig.compressorEnergyTransfer)
+                .onChange(this::updateData)
+                .capacity(PowerArmorConfig.compressorEnergyCapacity));
 
         this.redstoneSignalType = RedstoneSignalType.IGNORED;
     }
 
-    @Override
     protected void onItemsChanged(int slot) {
-        super.onItemsChanged(slot);
+        this.updateData();
 
         if (slot == 0 || slot == 1) {
             this.checkRecipe();
@@ -76,27 +83,31 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
     }
 
     @Override
-    public void commonTick() {
-        if (this.currentRecipe != null && this.getEnergyStorage().getEnergyStored() >= PowerArmorConfig.COMPRESSOR_USAGE.getAsInt()) {
+    public void tick() {
+        if (this.currentRecipe != null && this.getEnergyStorage().getEnergyStored() >= PowerArmorConfig.compressorEnergyUsage) {
             if (this.progress >= this.currentRecipe.duration()) {
                 ItemStack result = this.currentRecipe.result().copy();
                 this.getItemHandler().extractItem(0, 1, false);
-                this.forceInsertItem(1, result, false);
+                this.forceInsertItem(((IItemHandlerModifiable) this.getItemHandler()), 1, result, false, this::onItemsChanged);
                 this.progress = 0;
-                if (this.getBlockState().getValue(PDLBlockStateProperties.ACTIVE)) {
-                    this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(PDLBlockStateProperties.ACTIVE, false));
-                }
             } else {
+                this.getEnergyStorage().extractEnergy(PowerArmorConfig.compressorEnergyUsage, false);
                 this.progress++;
-                if (!this.getBlockState().getValue(PDLBlockStateProperties.ACTIVE)) {
-                    this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(PDLBlockStateProperties.ACTIVE, true));
-                }
+                setActive(!isActive(), true);
             }
         } else {
             this.progress = 0;
-            if (this.getBlockState().getValue(PDLBlockStateProperties.ACTIVE)) {
-                this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(PDLBlockStateProperties.ACTIVE, false));
-            }
+            setActive(isActive(), false);
+        }
+    }
+
+    private @NotNull Boolean isActive() {
+        return this.getBlockState().getValue(PDLBlockStateProperties.ACTIVE);
+    }
+
+    private void setActive(boolean active, boolean value) {
+        if (active) {
+            this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(PDLBlockStateProperties.ACTIVE, value));
         }
     }
 
@@ -106,11 +117,6 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
 
     public int getProgress() {
         return this.progress;
-    }
-
-    @Override
-    public <T> Map<Direction, Pair<IOAction, int[]>> getSidedInteractions(BlockCapability<T, @Nullable Direction> blockCapability) {
-        return Map.of();
     }
 
     @Override
@@ -152,7 +158,7 @@ public class CompressorBlockEntity extends ContainerBlockEntity implements MenuP
     @Override
     public void setRedstoneSignalType(RedstoneSignalType redstoneSignalType) {
         this.redstoneSignalType = redstoneSignalType;
-        this.update();
+        this.updateData();
     }
 
     @Override

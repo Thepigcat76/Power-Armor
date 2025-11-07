@@ -2,6 +2,7 @@ package com.portingdeadmods.power_armor.content.blockentities;
 
 import com.portingdeadmods.portingdeadlibs.api.blockentities.ContainerBlockEntity;
 import com.portingdeadmods.portingdeadlibs.api.utils.IOAction;
+import com.portingdeadmods.portingdeadlibs.utils.capabilities.HandlerUtils;
 import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.content.items.PowerArmorItem;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -33,16 +35,20 @@ public class ArmorModificationTableBlockEntity extends ContainerBlockEntity impl
 
     public ArmorModificationTableBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), blockPos, blockState);
-        addEnergyStorage(PowerArmorConfig.POWER_ARMOR_CAPACITY.getAsInt());
+        addEnergyStorage(HandlerUtils::newEnergystorage, builder -> builder
+                .capacity(PowerArmorConfig.armorModificationTableEnergyCapacity)
+                .maxReceive(PowerArmorConfig.armorModificationTableEnergyTransfer)
+                .maxExtract(0)
+                .onChange(this::updateData));
         this.itemHandler = new ArmorModulesItemHandlerWrapper(ItemStack.EMPTY);
     }
 
     @Override
-    public void commonTick() {
+    public void tick() {
         IEnergyStorage energyStorage = this.itemHandler.itemStack().getCapability(Capabilities.EnergyStorage.ITEM);
         if (energyStorage != null) {
             IEnergyStorage beEnergyStorage = this.getEnergyStorage();
-            int extracted = beEnergyStorage.extractEnergy(PowerArmorConfig.POWER_ARMOR_TRANSFER.getAsInt(), false);
+            int extracted = beEnergyStorage.extractEnergy(PowerArmorConfig.powerArmorEnergyTransfer, false);
             energyStorage.receiveEnergy(extracted, false);
         }
     }
@@ -50,11 +56,6 @@ public class ArmorModificationTableBlockEntity extends ContainerBlockEntity impl
     @Override
     public ArmorModulesItemHandlerWrapper getItemHandler() {
         return this.itemHandler;
-    }
-
-    @Override
-    public <T> Map<Direction, Pair<IOAction, int[]>> getSidedInteractions(BlockCapability<T, @Nullable Direction> blockCapability) {
-        return Map.of();
     }
 
     @Override
@@ -68,8 +69,8 @@ public class ArmorModificationTableBlockEntity extends ContainerBlockEntity impl
     }
 
     @Override
-    public void drop() {
-        Containers.dropContents(this.level, this.worldPosition, NonNullList.of(ItemStack.EMPTY, this.itemHandler.getStackInSlot(0)));
+    public void dropItems(IItemHandler handler) {
+        Containers.dropContents(this.level, this.worldPosition, NonNullList.of(ItemStack.EMPTY, handler.getStackInSlot(0)));
     }
 
 }

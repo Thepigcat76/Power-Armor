@@ -3,22 +3,22 @@
   "category": "misc",
   "key": {
     "B": {
-      "item": "power_armor:armor_module_blank"
+      "item": "power_armor:battery"
     },
-    "P": {
-      "tag": "c:plates/iron"
+    "M": {
+      "item": "power_armor:armor_module_blank"
     },
     "R": {
       "tag": "c:dusts/redstone"
     }
   },
   "pattern": [
-    "P P",
-    "PBP",
-    "R R"
+    " B ",
+    "RMR",
+    " B "
   ],
   "result": {
     "count": 1,
-    "id": "power_armor:armor_module_jetpack"
+    "id": "power_armor:armor_module_energy"
   }
 }

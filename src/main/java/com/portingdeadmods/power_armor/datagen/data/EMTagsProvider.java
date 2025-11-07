@@ -71,6 +71,13 @@ public class EMTagsProvider {
         protected void addTags(HolderLookup.Provider provider) {
             tag(BlockTags.NEEDS_STONE_TOOL, PABlocks.MACHINE_FRAME.get());
             tag(BlockTags.NEEDS_STONE_TOOL, PABlocks.COMPRESSOR.get());
+            tag(BlockTags.NEEDS_STONE_TOOL, PABlocks.ARMOR_MODIFICATION_TABLE.get());
+
+
+            tag(BlockTags.MINEABLE_WITH_PICKAXE, PABlocks.MACHINE_FRAME.get());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE, PABlocks.COMPRESSOR.get());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE, PABlocks.ARMOR_MODIFICATION_TABLE.get());
+
         }
 
         private void tag(TagKey<Block> itemTagKey, Block... blocks) {

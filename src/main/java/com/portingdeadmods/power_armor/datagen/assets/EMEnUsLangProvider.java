@@ -1,5 +1,6 @@
 package com.portingdeadmods.power_armor.datagen.assets;
 
+import com.portingdeadmods.portingdeadlibs.api.config.PDLConfigHelper;
 import com.portingdeadmods.portingdeadlibs.utils.Utils;
 import com.portingdeadmods.power_armor.PARegistries;
 import com.portingdeadmods.power_armor.PowerArmor;
@@ -25,6 +26,7 @@ public class EMEnUsLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         PATranslations.TRANSLATIONS.getDefaultTranslations().forEach(this::add);
+        PDLConfigHelper.generateConfigNames(PowerArmorConfig.class, PowerArmor.MODID, this::add);
 
         addItem(PAItems.COPPER_PLATE, "Copper Plate");
         addItem(PAItems.COPPER_WIRE, "Copper Wire");
@@ -59,19 +61,9 @@ public class EMEnUsLangProvider extends LanguageProvider {
         addArmorModule(PAArmorModules.ENERGY, "Energy");
         addArmorModule(PAArmorModules.SPEED, "Speed");
 
-        addConfig(PowerArmorConfig.ARMOR_MODIFICATION_TABLE_CAPACITY, "Armor Modification Table Energy Capacity");
-        addConfig(PowerArmorConfig.BATTERY_CAPACITY, "Battery Energy Capacity");
-        addConfig(PowerArmorConfig.BATTERY_TRANSFER, "Battery Energy Transfer");
-        addConfig(PowerArmorConfig.COMPRESSOR_CAPACITY, "Compressor Energy Capacity");
-        addConfig(PowerArmorConfig.COMPRESSOR_USAGE, "Compressor Energy Usage");
-        addConfig(PowerArmorConfig.POWER_ARMOR_CAPACITY, "Power Armor Energy Capacity");
-        addConfig(PowerArmorConfig.POWER_ARMOR_TRANSFER, "Power Armor Energy Transfer");
-        addConfig(PowerArmorConfig.POWER_ARMOR_JETPACK_USAGE, "Jetpack Armor Module Energy Usage");
-        addConfig(PowerArmorConfig.POWER_ARMOR_NIGHT_VISION_USAGE, "Night Vision Armor Module Energy Usage");
-        addConfig(PowerArmorConfig.POWER_ARMOR_PLATING_USAGE, "Plating Armor Module Energy Usage");
-        addConfig(PowerArmorConfig.POWER_ARMOR_SOLAR_PRODUCTION, "Solar Armor Module Energy Production");
-        addConfig(PowerArmorConfig.POWER_ARMOR_SPEED_USAGE, "Speed Armor Module Energy Usage");
-        addConfig(PowerArmorConfig.POWER_ARMOR_ENERGY_MODULE_MULTIPLIER, "Energy Armor Module Energy Capacity Multiplier");
+        add("redstone_signal_type.portingdeadlibs.ignored", "Ignored");
+        add("redstone_signal_type.portingdeadlibs.low_signal", "Low Signal");
+        add("redstone_signal_type.portingdeadlibs.high_signal", "High Signal");
 
     }
 

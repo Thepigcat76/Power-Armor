@@ -1,54 +1,45 @@
 package com.portingdeadmods.power_armor;
 
+import com.portingdeadmods.portingdeadlibs.api.config.ConfigValue;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.OptionalInt;
 
 public final class PowerArmorConfig {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    @ConfigValue(name = "Battery Energy Capacity", category = "energy.capacity", comment = "Energy Capacity of the Battery Item")
+    public static int batteryEnergyCapacity = 64_000;
 
-    public static final ModConfigSpec.IntValue BATTERY_CAPACITY = BUILDER
-            .comment("Energy capacity of the battery item")
-            .defineInRange("battery_capacity", 64_000, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue BATTERY_TRANSFER = BUILDER
-            .comment("Amount of energy the battery item can transfer per tick")
-            .defineInRange("battery_transfer", 32, 0, Integer.MAX_VALUE);
+    @ConfigValue(name = "Battery Energy Transfer", category = "energy.transfer", comment = "Energy Transfer of the Battery Item")
+    public static int batteryEnergyTransfer = 32;
 
-    public static final ModConfigSpec.IntValue POWER_ARMOR_CAPACITY = BUILDER
-            .comment("Energy capacity of the power armor item")
-            .defineInRange("power_armor_capacity", 64_000, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_TRANSFER = BUILDER
-            .comment("Amount of energy the power armor item can transfer per tick")
-            .defineInRange("power_armor_transfer", 32, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_PLATING_USAGE = BUILDER
-            .comment("Amount of energy used by the Power Armor Plating Module when the player takes damage")
-            .defineInRange("power_armor_plating_usage", 200, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_NIGHT_VISION_USAGE = BUILDER
-            .comment("Amount of energy used by the Power Armor Night Vision Module")
-            .defineInRange("power_armor_night_vision_usage", 1, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_ENERGY_MODULE_MULTIPLIER = BUILDER
-            .comment("Multiplier of energy capacity, when Energy Armor Module is installed")
-            .defineInRange("power_armor_energy_module_multiplier", 4, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_SPEED_USAGE = BUILDER
-            .comment("Amount of energy used by the Power Armor Speed Module when the player is running")
-            .defineInRange("power_armor_speed_usage", 2, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_JETPACK_USAGE = BUILDER
-            .comment("Amount of energy used by the Power Armor Jetpack Module when the player is flying")
-            .defineInRange("power_armor_jetpack_usage", 2, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue POWER_ARMOR_SOLAR_PRODUCTION = BUILDER
-            .comment("Amount of energy produced by the Power Armor Solar Module when the sun is shining")
-            .defineInRange("power_armor_solar_production", 4, 0, Integer.MAX_VALUE);
+    @ConfigValue(name = "Power Armor Energy Capacity", category = "energy.capacity", comment = "Energy Capacity of the Power Armor")
+    public static int powerArmorEnergyCapacity = 64_000;
 
-    public static final ModConfigSpec.IntValue COMPRESSOR_CAPACITY = BUILDER
-            .comment("Energy capacity of the compressor")
-            .defineInRange("compressor_capacity", 16_000, 0, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue COMPRESSOR_USAGE = BUILDER
-            .comment("Energy usage of the compressor per tick")
-            .defineInRange("compressor_usage", 8, 0, Integer.MAX_VALUE);
+    @ConfigValue(name = "Power Armor Energy Transfer", category = "energy.transfer", comment = "Energy Transfer of the Power Armor")
+    public static int powerArmorEnergyTransfer = 32;
 
-    public static final ModConfigSpec.IntValue ARMOR_MODIFICATION_TABLE_CAPACITY = BUILDER
-            .comment("Energy capacity of the armor modification table")
-            .defineInRange("armor_modification_table_capacity", 512_000, 0, Integer.MAX_VALUE);
+    @ConfigValue(name = "Power Armor Plating Energy Usage", category = "module.energy.usage", comment = "Energy Usage of the Power Armor Plating Module")
+    public static int powerArmorPlatingEnergyUsage = 200;
+    @ConfigValue(name = "Power Armor Night Vision Energy Usage", category = "module.energy.usage", comment = "Energy Usage of the Power Armor Night Vision Module")
+    public static int powerArmorNightVisionEnergyUsage = 1;
+    @ConfigValue(name = "Power Armor Energy Module Multiplier", category = "module.energy", comment = "Energy Multiplier of the Power Armor Energy Module")
+    public static int powerArmorEnergyModuleMultiplier = 4;
+    @ConfigValue(name = "Power Armor Speed Module Usage", category = "module.energy.usage", comment = "Energy Usage of the Power Armor Speed Module")
+    public static int powerArmorSpeedModuleEnergyUsage = 2;
+    @ConfigValue(name = "Power Armor Jetpack Module Usage", category = "module.energy.usage", comment = "Energy Usage of the Power Armor Jetpack Module")
+    public static int powerArmorJetpackModuleEnergyUsage = 2;
+    @ConfigValue(name = "Power Armor Solar Module Production", category = "module.energy.production", comment = "Energy Production of the Power Armor Solar Module")
+    public static int powerArmorSolarModuleEnergyProduction = 4;
 
-    static final ModConfigSpec SPEC = BUILDER.build();
+    @ConfigValue(name = "Compressor Energy Capacity", category = "energy.capacity", comment = "Energy Capacity of the Compressor")
+    public static int compressorEnergyCapacity = 16_000;
+    @ConfigValue(name = "Compressor Energy Usage", category = "energy.usage", comment = "Energy usage of the Compressor per tick")
+    public static int compressorEnergyUsage = 8;
+    @ConfigValue(name = "Compressor Energy Transfer", category = "energy.transfer", comment = "Energy Transfer of the Compressor")
+    public static int compressorEnergyTransfer = 32;
+
+    @ConfigValue(name = "Armor Modification Table Energy Capacity", category = "energy.capacity", comment = "Energy Capacity of the Armor Modification Table")
+    public static int armorModificationTableEnergyCapacity = 256_000;
+    @ConfigValue(name = "Armor Modification Table Energy Transfer", category = "energy.transfer", comment = "Energy Transfer of the Armor Modification Table")
+    public static int armorModificationTableEnergyTransfer = 128;
 }

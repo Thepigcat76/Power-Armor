@@ -3,17 +3,21 @@ package com.portingdeadmods.power_armor.events;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.api.AttackType;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
+import com.portingdeadmods.power_armor.client.PAKeybinds;
 import com.portingdeadmods.power_armor.content.items.ArmorRemoveHandler;
 import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import com.portingdeadmods.power_armor.registries.PAArmorModules;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.entity.living.ArmorHurtEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -59,22 +63,37 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Pre event) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (PAKeybinds.LASER_ATTACK.get().isDown()) {
+            AttackType type = ArmorModuleUtils.getAttackType(player);
+
+            if (type.vanilla()) return;
+
+            type.handle(player, player, player.swingingArm);
+        }
+    }
+
+    @SubscribeEvent
     public static void onLeftClick(PlayerInteractEvent.LeftClickEmpty event) {
-        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
-
-        if (type.vanilla()) return;
-
-        type.handle(event.getEntity(), null, event.getHand());
+//        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
+//
+//        if (type.vanilla()) return;
+//
+//        type.handle(event.getEntity(), null, event.getHand());
 
     }
 
     @SubscribeEvent
     public static void onHit(AttackEntityEvent event) {
-        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
+//        AttackType type = ArmorModuleUtils.getAttackType(event.getEntity());
+//
+//        if (type.vanilla()) return;
+//
+//        type.handle(event.getEntity(), event.getTarget(), event.getEntity().swingingArm);
+//
+//        event.setCanceled(true);
 
-        if (type.vanilla()) return;
-
-        type.handle(event.getEntity(), event.getTarget(), event.getEntity().swingingArm);
     }
 
 }

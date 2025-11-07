@@ -118,7 +118,7 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_armor_plating", has(PAItems.ARMOR_PLATING))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.BLANK_ARMOR_MODULE, 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.BLANK_ARMOR_MODULE, 3)
                 .pattern(" I ")
                 .pattern("ICI")
                 .pattern(" I ")
@@ -127,7 +127,7 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_iron_plates", has(PATags.ItemTags.PLATES_IRON))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.SOLAR_ARMOR_MODULE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.SOLAR_ARMOR_MODULE)
                 .pattern("GGG")
                 .pattern("LBL")
                 .pattern("PPP")
@@ -138,7 +138,7 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.PLATING_ARMOR_MODULE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.PLATING_ARMOR_MODULE)
                 .pattern("IPI")
                 .pattern("PBP")
                 .pattern("IPI")
@@ -148,7 +148,7 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.JETPACK_ARMOR_MODULE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.JETPACK_ARMOR_MODULE)
                 .pattern("P P")
                 .pattern("PBP")
                 .pattern("R R")
@@ -158,7 +158,7 @@ public class EMRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, PAItems.LASER_ARMOR_MODULE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.LASER_ARMOR_MODULE)
                 .pattern("  R")
                 .pattern("PB ")
                 .pattern("IP ")
@@ -166,6 +166,36 @@ public class EMRecipeProvider extends RecipeProvider {
                 .define('P', PATags.ItemTags.PLATES_IRON)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('B', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.ENERGY_ARMOR_MODULE)
+                .pattern(" B ")
+                .pattern("RMR")
+                .pattern(" B ")
+                .define('R', Tags.Items.DUSTS_REDSTONE)
+                .define('B', PAItems.BATTERY)
+                .define('M', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.NIGHT_VISION_ARMOR_MODULE)
+                .pattern(" D ")
+                .pattern("GMG")
+                .pattern(" D ")
+                .define('D', Tags.Items.DUSTS_GLOWSTONE)
+                .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                .define('M', PAItems.BLANK_ARMOR_MODULE)
+                .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PAItems.SPEED_ARMOR_MODULE)
+                .pattern(" C ")
+                .pattern("SMS")
+                .pattern(" C ")
+                .define('S', Items.SUGAR)
+                .define('C', PATags.ItemTags.PLATES_COPPER)
+                .define('M', PAItems.BLANK_ARMOR_MODULE)
                 .unlockedBy("has_armor_module", has(PAItems.BLANK_ARMOR_MODULE))
                 .save(output);
 

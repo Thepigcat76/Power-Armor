@@ -28,7 +28,7 @@ public class SpeedArmorModule implements ArmorModule {
 
     @Override
     public int getEnergyUsage(ItemStack stack) {
-        return PowerArmorConfig.POWER_ARMOR_SPEED_USAGE.getAsInt();
+        return PowerArmorConfig.powerArmorSpeedModuleEnergyUsage;
     }
 
     @Override
