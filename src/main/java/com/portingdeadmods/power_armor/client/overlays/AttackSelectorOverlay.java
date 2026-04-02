@@ -8,19 +8,19 @@ import com.portingdeadmods.power_armor.registries.PAAttachments;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.LayeredDraw;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.gui.GuiLayer;
 
-import javax.swing.text.Highlighter;
 import java.util.List;
 
-public class AttackSelectorOverlay implements LayeredDraw.Layer {
-    public static final ResourceLocation ATTACK_SLOT = PowerArmor.rl("attack_slot");
-    public static final ResourceLocation ATTACK_SLOT_HIGHLIGHTED = PowerArmor.rl("attack_slot_highlighted");
+public class AttackSelectorOverlay implements GuiLayer {
+    public static final Identifier ATTACK_SLOT = PowerArmor.id("attack_slot");
+    public static final Identifier ATTACK_SLOT_HIGHLIGHTED = PowerArmor.id("attack_slot_highlighted");
 
     @Override
-    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+    public void render(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
         Minecraft mc = Minecraft.getInstance();
 
         int index = mc.player.getData(PAAttachments.ATTACK_TYPE);
@@ -41,12 +41,11 @@ public class AttackSelectorOverlay implements LayeredDraw.Layer {
         } else {
             ClientEvents.ATTACK_TYPES_AMOUNT = 1;
         }
-
     }
 
-    private void renderAttackType(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int attackTypeIndex, int i) {
-        guiGraphics.blitSprite(attackTypeIndex == i ? ATTACK_SLOT_HIGHLIGHTED : ATTACK_SLOT, x, y, 24, 24);
-        guiGraphics.blitSprite(sprite, x + 4, y + 4, 16, 16);
+    private void renderAttackType(GuiGraphicsExtractor guiGraphics, Identifier sprite, int x, int y, int attackTypeIndex, int i) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, attackTypeIndex == i ? ATTACK_SLOT_HIGHLIGHTED : ATTACK_SLOT, x, y, 24, 24);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x + 4, y + 4, 16, 16);
     }
 
 }

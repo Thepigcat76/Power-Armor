@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateInputPayload(boolean up, boolean down, boolean forwards, boolean backwards, boolean left, boolean right, boolean sprint) implements CustomPacketPayload {
-    public static final Type<UpdateInputPayload> TYPE = new Type<>(PowerArmor.rl("update_inputs"));
+    public static final Type<UpdateInputPayload> TYPE = new Type<>(PowerArmor.id("update_inputs"));
 
     public static final StreamCodec<ByteBuf, UpdateInputPayload> STREAM_CODEC = StreamCodec.of(UpdateInputPayload::encode, UpdateInputPayload::decode);
 

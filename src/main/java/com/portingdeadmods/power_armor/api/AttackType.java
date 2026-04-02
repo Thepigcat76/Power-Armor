@@ -1,36 +1,26 @@
 package com.portingdeadmods.power_armor.api;
 
 import com.portingdeadmods.power_armor.PowerArmor;
-import com.portingdeadmods.power_armor.api.modules.AttackArmorModule;
 import com.portingdeadmods.power_armor.content.modules.LaserArmorModule;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 
-public record AttackType(ResourceLocation sprite, Component displayName, boolean vanilla) {
-    public static final ResourceLocation VANILLA_ATTACK_SPRITE = PowerArmor.rl("vanilla_attack");
+public record AttackType(Identifier sprite, Component displayName, boolean vanilla) {
+    public static final Identifier VANILLA_ATTACK_SPRITE = PowerArmor.id("vanilla_attack");
     public static final AttackType VANILLA = new AttackType(VANILLA_ATTACK_SPRITE, Component.literal("Vanilla"));
 
-    public AttackType(ResourceLocation sprite, Component displayName) {
+    public AttackType(Identifier sprite, Component displayName) {
         this(sprite, displayName, false);
     }
 

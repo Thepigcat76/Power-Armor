@@ -3,13 +3,16 @@ package com.portingdeadmods.power_armor.api.modules;
 import com.portingdeadmods.portingdeadlibs.utils.Utils;
 import com.portingdeadmods.power_armor.PARegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,7 +31,7 @@ public interface ArmorModule {
         }
 
         @Override
-        public Set<ArmorItem.Type> getArmorTypes() {
+        public Set<EquipmentSlot> getArmorSlots() {
             return Set.of();
         }
     };
@@ -40,7 +43,7 @@ public interface ArmorModule {
     }
 
     @Nullable
-    Set<ArmorItem.Type> getArmorTypes();
+    Set<EquipmentSlot> getArmorSlots();
 
     default int getEnergyUsage(ItemStack stack) {
         return 0;
@@ -56,10 +59,10 @@ public interface ArmorModule {
     default void tick(ItemStack armorItem, Player player) {
     }
 
-    default void onAdded(ItemStack armorItem) {
+    default void onAdded(ItemStack armorItem, TransactionContext transaction) {
     }
 
-    default void onRemoved(ItemStack armorItem) {
+    default void onRemoved(ItemStack armorItem, TransactionContext transaction) {
     }
 
     default void onArmorUnequipped(Player player, ItemStack armorItem) {
@@ -70,8 +73,8 @@ public interface ArmorModule {
     }
 
     default boolean isActive(ItemStack armorItem) {
-        IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
-        return energyStorage.getEnergyStored() >= this.getEnergyUsage(armorItem);
+        EnergyHandler energyHandler = armorItem.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(armorItem));
+        return energyHandler.getAmountAsInt() >= this.getEnergyUsage(armorItem);
     }
 
     default void extractEnergy(ItemStack armorItem) {
@@ -79,8 +82,11 @@ public interface ArmorModule {
     }
 
     default void extractEnergy(ItemStack armorItem, int usage) {
-        IEnergyStorage energyStorage = armorItem.getCapability(Capabilities.EnergyStorage.ITEM);
-        energyStorage.extractEnergy(usage, false);
+        EnergyHandler energyHandler = armorItem.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(armorItem));
+        try (Transaction tx = Transaction.openRoot()) {
+            energyHandler.extract(usage, tx);
+            tx.commit();
+        }
     }
 
     static @Nullable ArmorModule byItem(Item item) {

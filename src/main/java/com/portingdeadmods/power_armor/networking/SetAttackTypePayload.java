@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record SetAttackTypePayload(int attackType) implements CustomPacketPayload {
-    public static final Type<SetAttackTypePayload> TYPE = new Type<>(PowerArmor.rl("set_attack_type"));
+    public static final Type<SetAttackTypePayload> TYPE = new Type<>(PowerArmor.id("set_attack_type"));
     public static final StreamCodec<? super RegistryFriendlyByteBuf, SetAttackTypePayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,
             SetAttackTypePayload::attackType,

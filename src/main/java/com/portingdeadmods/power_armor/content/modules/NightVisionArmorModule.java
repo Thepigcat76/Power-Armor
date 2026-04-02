@@ -5,17 +5,16 @@ import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.registries.PAItems;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public class NightVisionArmorModule implements ArmorModule {
-    public static final Set<ArmorItem.Type> TYPES = Set.of(ArmorItem.Type.HELMET);
+    public static final Set<EquipmentSlot> SLOTS = Set.of(EquipmentSlot.HEAD);
 
     @Override
     public Item getItem() {
@@ -23,8 +22,8 @@ public class NightVisionArmorModule implements ArmorModule {
     }
 
     @Override
-    public @Nullable Set<ArmorItem.Type> getArmorTypes() {
-        return TYPES;
+    public @Nullable Set<EquipmentSlot> getArmorSlots() {
+        return SLOTS;
     }
 
     @Override

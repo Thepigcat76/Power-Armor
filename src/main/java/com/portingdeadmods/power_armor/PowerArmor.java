@@ -1,27 +1,24 @@
 package com.portingdeadmods.power_armor;
 
 import com.portingdeadmods.portingdeadlibs.api.config.PDLConfigHelper;
-import com.portingdeadmods.power_armor.capabilities.PAComponentEnergyStorage;
 import com.portingdeadmods.power_armor.client.InputHandler;
+import com.portingdeadmods.power_armor.client.items.Energy;
 import com.portingdeadmods.power_armor.data.PAComponents;
-import com.portingdeadmods.power_armor.networking.ArmorWidgetOpenClosePayload;
-import com.portingdeadmods.power_armor.networking.ArmorWidgetSetSlotPositionsPayload;
-import com.portingdeadmods.power_armor.networking.SetAttackTypePayload;
-import com.portingdeadmods.power_armor.networking.UpdateInputPayload;
+import com.portingdeadmods.power_armor.data.PDLItemAccessEnergyHandler;
+import com.portingdeadmods.power_armor.networking.*;
 import com.portingdeadmods.power_armor.registries.*;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.energy.ComponentEnergyStorage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -42,6 +39,7 @@ public final class PowerArmor {
         modEventBus.addListener(this::registerPayloads);
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::registerRegistries);
+        modEventBus.addListener(this::registerRangeSelect);
 
         PAAttachments.ATTACHMENTS.register(modEventBus);
         PAArmorModules.ARMOR_MODULES.register(modEventBus);
@@ -53,13 +51,16 @@ public final class PowerArmor {
         PABlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         PAMenuTypes.MENU_TYPES.register(modEventBus);
         PARecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
-        PAArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
         PASoundEvents.SOUND_EVENTS.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(new InputHandler());
 
-        PDLConfigHelper.registerConfig(PowerArmorConfig.class, ModConfig.Type.COMMON).register(modContainer);
+        PDLConfigHelper.registerConfig(PowerArmorConfig.class, ModConfig.Type.COMMON, modContainer);
 
+    }
+
+    private void registerRangeSelect(RegisterRangeSelectItemModelPropertyEvent event) {
+        event.register(id("energy"), Energy.MAP_CODEC);
     }
 
     private void registerRegistries(NewRegistryEvent event) {
@@ -73,43 +74,45 @@ public final class PowerArmor {
         registrar.playToServer(ArmorWidgetOpenClosePayload.TYPE, ArmorWidgetOpenClosePayload.STREAM_CODEC, ArmorWidgetOpenClosePayload::handle);
         registrar.playToServer(ArmorWidgetSetSlotPositionsPayload.TYPE, ArmorWidgetSetSlotPositionsPayload.STREAM_CODEC, ArmorWidgetSetSlotPositionsPayload::handle);
         registrar.playToServer(SetAttackTypePayload.TYPE, SetAttackTypePayload.STREAM_CODEC, SetAttackTypePayload::handle);
+
+        registrar.playToClient(SetDeltaMovementPayload.TYPE, SetDeltaMovementPayload.STREAM_CODEC, SetDeltaMovementPayload::handle);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.batteryEnergyCapacity, PowerArmorConfig.batteryEnergyTransfer),
+        event.registerItem(Capabilities.Energy.ITEM,
+                (stack, ctx) -> getComponentEnergyStorage(ctx, PowerArmorConfig.batteryEnergyCapacity, PowerArmorConfig.batteryEnergyTransfer),
                 PAItems.BATTERY.get());
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
+        event.registerItem(Capabilities.Energy.ITEM,
+                (stack, ctx) -> getComponentEnergyStorage(ctx, stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_HELMET.get());
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
+        event.registerItem(Capabilities.Energy.ITEM,
+                (stack, ctx) -> getComponentEnergyStorage(ctx, stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_CHESTPLATE.get());
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
+        event.registerItem(Capabilities.Energy.ITEM,
+                (stack, ctx) -> getComponentEnergyStorage(ctx, stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_LEGGINGS.get());
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
-                (stack, ctx) -> getComponentEnergyStorage(stack, PowerArmorConfig.powerArmorEnergyTransfer),
+        event.registerItem(Capabilities.Energy.ITEM,
+                (stack, ctx) -> getComponentEnergyStorage(ctx, stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_BOOTS.get());
 
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getEnergyStorage());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getItemHandler());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getHandler(Capabilities.Energy.BLOCK));
+        event.registerBlockEntity(Capabilities.Item.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getHandler(Capabilities.Item.BLOCK));
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.Item.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getItemHandler());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getHandler(Capabilities.Energy.BLOCK));
 
     }
 
-    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, int capacity, int transfer) {
-        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), capacity, transfer);
+    private static @NotNull PDLItemAccessEnergyHandler getComponentEnergyStorage(ItemAccess access, int capacity, int transfer) {
+        return new PDLItemAccessEnergyHandler(access, PDLDataComponents.ENERGY.get(), capacity, transfer);
     }
 
-    private static @NotNull ComponentEnergyStorage getComponentEnergyStorage(ItemStack stack, int transfer) {
-        return new PAComponentEnergyStorage(stack, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer);
+    private static @NotNull PDLItemAccessEnergyHandler getComponentEnergyStorage(ItemAccess access, ItemStack stack, int transfer) {
+        return new PDLItemAccessEnergyHandler(access, PDLDataComponents.ENERGY.get(), stack.get(PAComponents.ENERGY_CAPACITY.get()), transfer);
     }
 
-    public static ResourceLocation rl(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
 }

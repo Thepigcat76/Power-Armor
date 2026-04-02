@@ -7,6 +7,8 @@ import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
 import com.portingdeadmods.power_armor.registries.PAAttachments;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,13 +20,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class ArmorModuleUtils {
+    public static final Set<EquipmentSlot> ARMOR_SLOTS = Set.copyOf(EquipmentSlotGroup.ARMOR.slots());
+
     public static boolean hasModule(ItemStack stack, Supplier<? extends ArmorModule> module) {
         ArmorModulesComponent armorModulesComponent = stack.getOrDefault(PAComponents.ARMOR_MODULES, ArmorModulesComponent.EMPTY);
         return armorModulesComponent.modulesUnsafe().contains(module.get());
     }
 
     public static boolean hasMultipleAttacks(Player player) {
-        for (ItemStack stack : player.getArmorSlots()) {
+        for (EquipmentSlot slot : EquipmentSlotGroup.ARMOR) {
+            ItemStack stack = player.getItemBySlot(slot);
             if (stack.has(PAComponents.ARMOR_MODULES)) {
                 NonNullList<ArmorModule> armorModules = stack.get(PAComponents.ARMOR_MODULES).modulesUnsafe();
                 for (ArmorModule armorModule : armorModules) {
@@ -38,7 +43,8 @@ public final class ArmorModuleUtils {
     }
 
     public static Stream<ArmorModule> getModules(Player player) {
-        return player.getInventory().armor.stream()
+        return EquipmentSlotGroup.ARMOR.slots().stream()
+                .map(player::getItemBySlot)
                 .filter(item -> item.has(PAComponents.ARMOR_MODULES))
                 .flatMap(item -> item.getOrDefault(PAComponents.ARMOR_MODULES, ArmorModulesComponent.EMPTY).modulesUnsafe().stream());
     }

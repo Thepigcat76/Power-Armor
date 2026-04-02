@@ -2,7 +2,7 @@ package com.portingdeadmods.power_armor.registries;
 
 import com.portingdeadmods.power_armor.PowerArmor;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -14,6 +14,6 @@ public final class PASoundEvents {
     public static final Supplier<SoundEvent> JETPACK = registerSoundEvent("jetpack");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name){
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PowerArmor.MODID, name)));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(PowerArmor.MODID, name)));
     }
 }

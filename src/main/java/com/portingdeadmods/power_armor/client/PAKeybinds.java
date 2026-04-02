@@ -3,7 +3,6 @@ package com.portingdeadmods.power_armor.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.portingdeadmods.power_armor.PowerArmor;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.world.entity.PowerableMob;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -13,12 +12,14 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = PowerArmor.MODID, value = Dist.CLIENT)
 public final class PAKeybinds {
+    public static final KeyMapping.Category POWER_ARMOR_CATEGORY = new KeyMapping.Category(PowerArmor.id("power_armor"));
+
     public static final Lazy<KeyMapping> CYCLE_ATTACK_TYPE_UP = keyBind("Cycle Attack Type Up", GLFW.GLFW_KEY_K);
     public static final Lazy<KeyMapping> CYCLE_ATTACK_TYPE_DOWN = keyBind("Cycle Attack Type Down", GLFW.GLFW_KEY_M);
     public static final Lazy<KeyMapping> LASER_ATTACK = keyBind("Laser Attack", GLFW.GLFW_MOUSE_BUTTON_LEFT);
 
     public static Lazy<KeyMapping> keyBind(String name, int key) {
-        return Lazy.of(() -> new KeyMapping(name, InputConstants.Type.KEYSYM, key, PowerArmor.MODNAME));
+        return Lazy.of(() -> new KeyMapping(name, InputConstants.Type.KEYSYM, key, POWER_ARMOR_CATEGORY));
     }
 
     @SubscribeEvent

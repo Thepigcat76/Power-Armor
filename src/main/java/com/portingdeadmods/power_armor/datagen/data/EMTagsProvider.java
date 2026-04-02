@@ -9,7 +9,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -17,23 +18,21 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class EMTagsProvider {
-    public static void createTagProviders(DataGenerator generator, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper, boolean isServer) {
-        BlocksProvider provider = new BlocksProvider(packOutput, lookupProvider, existingFileHelper);
-        generator.addProvider(isServer, provider);
-        generator.addProvider(isServer, new ItemsProvider(packOutput, lookupProvider, provider.contentsGetter()));
-        generator.addProvider(isServer, new FluidsProvider(packOutput, lookupProvider, existingFileHelper));
+    public static void createTagProviders(DataGenerator generator, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        generator.addProvider(true, new BlocksProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new ItemsProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new FluidsProvider(packOutput, lookupProvider));
     }
 
-    protected static class ItemsProvider extends ItemTagsProvider {
-        public ItemsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags) {
-            super(output, lookupProvider, blockTags);
+    protected static class ItemsProvider extends net.neoforged.neoforge.common.data.ItemTagsProvider {
+        public ItemsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, lookupProvider, PowerArmor.MODID);
         }
 
         @Override
@@ -47,7 +46,7 @@ public class EMTagsProvider {
         }
 
         private void tag(TagKey<Item> itemTagKey, ItemLike... items) {
-            IntrinsicTagAppender<Item> tag = tag(itemTagKey);
+            TagAppender<Item, Item> tag = tag(itemTagKey);
             for (ItemLike item : items) {
                 tag.add(item.asItem());
             }
@@ -55,7 +54,7 @@ public class EMTagsProvider {
 
         @SafeVarargs
         private void tag(TagKey<Item> itemTagKey, TagKey<Item>... items) {
-            IntrinsicTagAppender<Item> tag = tag(itemTagKey);
+            TagAppender<Item, Item> tag = tag(itemTagKey);
             for (TagKey<Item> item : items) {
                 tag.addTag(item);
             }
@@ -63,8 +62,8 @@ public class EMTagsProvider {
     }
 
     protected static class BlocksProvider extends BlockTagsProvider {
-        public BlocksProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-            super(output, lookupProvider, PowerArmor.MODID, existingFileHelper);
+        public BlocksProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, lookupProvider, PowerArmor.MODID);
         }
 
         @Override
@@ -81,7 +80,7 @@ public class EMTagsProvider {
         }
 
         private void tag(TagKey<Block> itemTagKey, Block... blocks) {
-            IntrinsicTagAppender<Block> tag = tag(itemTagKey);
+            TagAppender<Block, Block> tag = tag(itemTagKey);
             for (Block block : blocks) {
                 tag.add(block);
             }
@@ -89,7 +88,7 @@ public class EMTagsProvider {
 
         @SafeVarargs
         private void tag(TagKey<Block> itemTagKey, TagKey<Block>... blocks) {
-            IntrinsicTagAppender<Block> tag = tag(itemTagKey);
+            TagAppender<Block, Block> tag = tag(itemTagKey);
             for (TagKey<Block> block : blocks) {
                 tag.addTag(block);
             }
@@ -97,8 +96,8 @@ public class EMTagsProvider {
     }
 
     public static class FluidsProvider extends FluidTagsProvider {
-        public FluidsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
-            super(output, provider, PowerArmor.MODID, existingFileHelper);
+        public FluidsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+            super(output, provider, PowerArmor.MODID);
         }
 
         @Override
@@ -106,14 +105,14 @@ public class EMTagsProvider {
         }
 
         private void tag(TagKey<Fluid> fluidTagKey, PDLFluid... fluids) {
-            IntrinsicTagAppender<Fluid> tag = tag(fluidTagKey);
+            TagAppender<Fluid, Fluid> tag = tag(fluidTagKey);
             for (PDLFluid fluid : fluids) {
                 tag.add(fluid.getStillFluid());
             }
         }
 
         private void tag(TagKey<Fluid> fluidTagKey, Fluid... fluids) {
-            IntrinsicTagAppender<Fluid> tag = tag(fluidTagKey);
+            TagAppender<Fluid, Fluid> tag = tag(fluidTagKey);
             for (Fluid fluid : fluids) {
                 tag.add(fluid);
             }
@@ -121,7 +120,7 @@ public class EMTagsProvider {
 
         @SafeVarargs
         private void tag(TagKey<Fluid> fluidTagKey, TagKey<Fluid>... fluids) {
-            IntrinsicTagAppender<Fluid> tag = tag(fluidTagKey);
+            TagAppender<Fluid, Fluid> tag = tag(fluidTagKey);
             for (TagKey<Fluid> fluid : fluids) {
                 tag.addTag(fluid);
             }

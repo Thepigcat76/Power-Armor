@@ -10,6 +10,6 @@ public final class PARecipeSerializers {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, PowerArmor.MODID);
 
     static {
-        RECIPE_SERIALIZERS.register("compressing", () -> CompressingRecipe.Serializer.INSTANCE);
+        RECIPE_SERIALIZERS.register("compressing", () -> CompressingRecipe.SERIALIZER);
     }
 }

@@ -12,7 +12,7 @@ public final class PAAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, PowerArmor.MODID);
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Integer>> ATTACK_TYPE = ATTACHMENTS.register("attack_type", () -> AttachmentType.builder(() -> 0)
-            .serialize(Codec.INT)
+            .serialize(Codec.INT.fieldOf("attack_type"))
             //.sync(ByteBufCodecs.INT)
             .copyOnDeath()
             .build());

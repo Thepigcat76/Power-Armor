@@ -1,6 +1,7 @@
 package com.portingdeadmods.power_armor.events;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import com.portingdeadmods.power_armor.api.AttackType;
 import com.portingdeadmods.power_armor.client.InputHandler;
 import com.portingdeadmods.power_armor.client.PAKeybinds;
 import com.portingdeadmods.power_armor.client.sounds.JetpackSound;
@@ -11,9 +12,9 @@ import com.portingdeadmods.power_armor.registries.PAAttachments;
 import com.portingdeadmods.power_armor.utils.ArmorModuleUtils;
 import com.portingdeadmods.power_armor.utils.VecHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,8 +25,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -79,20 +82,29 @@ public final class ClientEvents {
             cycleAttackType(mc.player, +1);
         }
 
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (PAKeybinds.LASER_ATTACK.get().isDown()) {
+            AttackType type = ArmorModuleUtils.getAttackType(player);
+
+            if (type.vanilla()) return;
+
+            type.handle(player, player, player.swingingArm);
+        }
+
     }
 
     private static void cycleAttackType(Player player, int change) {
         int index = player.getData(PAAttachments.ATTACK_TYPE);
         int newIndex = index + change < 0 ? ATTACK_TYPES_AMOUNT - 1 : (index + change >= ATTACK_TYPES_AMOUNT ? 0 : index + change);
         player.setData(PAAttachments.ATTACK_TYPE, newIndex);
-        PacketDistributor.sendToServer(new SetAttackTypePayload(newIndex));
+        ClientPacketDistributor.sendToServer(new SetAttackTypePayload(newIndex));
 
     }
 
     private static void update(boolean up, boolean down, boolean forwards, boolean backwards, boolean left, boolean right, boolean sprint) {
         LocalPlayer player = Minecraft.getInstance().player;
 
-        PacketDistributor.sendToServer(new UpdateInputPayload(up, down, forwards, backwards, left, right, sprint));
+        ClientPacketDistributor.sendToServer(new UpdateInputPayload(up, down, forwards, backwards, left, right, sprint));
         InputHandler.update(player, up, down, forwards, backwards, left, right, sprint);
     }
 
@@ -135,9 +147,9 @@ public final class ClientEvents {
         ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
 
         if (!stack.isEmpty()/* && isEngineOn(stack)*/) {
-            IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+            EnergyHandler energy = stack.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(stack));
 
-            if (energy.getEnergyStored() > 0 || player.isCreative()) {
+            if (energy.getAmountAsInt() > 0 || player.isCreative()) {
                 if (false /*isHovering(stack)*/) {
                     return !player.onGround();
                 }

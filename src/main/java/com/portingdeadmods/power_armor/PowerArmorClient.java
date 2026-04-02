@@ -6,24 +6,16 @@ import com.portingdeadmods.power_armor.client.overlays.EnergyBarOverlay;
 import com.portingdeadmods.power_armor.client.screens.ArmorModificationTableScreen;
 import com.portingdeadmods.power_armor.client.screens.CompressorScreen;
 import com.portingdeadmods.power_armor.content.items.PowerArmorTooltipComponent;
-import com.portingdeadmods.power_armor.content.menus.ArmorModificationTableMenu;
 import com.portingdeadmods.power_armor.registries.PAMenuTypes;
-import net.minecraft.client.gui.Font;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import org.jetbrains.annotations.Nullable;
 
 @Mod(value = PowerArmor.MODID, dist = Dist.CLIENT)
 public final class PowerArmorClient {
@@ -45,8 +37,8 @@ public final class PowerArmorClient {
     }
 
     private void registerClientOverlays(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(PowerArmor.rl("attack_selector"), new AttackSelectorOverlay());
-        event.registerAboveAll(PowerArmor.rl("energy_bar"), new EnergyBarOverlay());
+        event.registerAboveAll(PowerArmor.id("attack_selector"), new AttackSelectorOverlay());
+        event.registerAboveAll(PowerArmor.id("energy_bar"), new EnergyBarOverlay());
     }
 
 }

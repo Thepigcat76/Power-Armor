@@ -12,7 +12,9 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.RecipeAccess;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -21,10 +23,10 @@ import java.util.List;
 
 @JeiPlugin
 public final class PAJeiPlugin implements IModPlugin {
-    public static final ResourceLocation UID = PowerArmor.rl("jei_plugin");
+    public static final Identifier UID = PowerArmor.id("jei_plugin");
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
         return UID;
     }
 
@@ -39,17 +41,25 @@ public final class PAJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         IModPlugin.super.registerRecipeCatalysts(registration);
 
-        registration.addRecipeCatalyst(PABlocks.COMPRESSOR, CompressingCategory.TYPE);
+        registration.addCraftingStation(CompressingCategory.TYPE, PABlocks.COMPRESSOR);
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         IModPlugin.super.registerRecipes(registration);
 
-        Level level = Minecraft.getInstance().level;
-        RecipeManager recipeManager = level.getRecipeManager();
-        List<CompressingRecipe> recipes = recipeManager.getAllRecipesFor(CompressingRecipe.TYPE).stream().map(RecipeHolder::value).toList();
+        ClientLevel level = Minecraft.getInstance().level;
+        RecipeManager recipeManager = (RecipeManager) level.recipeAccess();
+
+        List<CompressingRecipe> recipes = getRecipesByType(recipeManager, CompressingRecipe.TYPE).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(CompressingCategory.TYPE, recipes);
+    }
+
+    public static <C extends net.minecraft.world.item.crafting.RecipeInput, T extends net.minecraft.world.item.crafting.Recipe<C>> java.util.List<net.minecraft.world.item.crafting.RecipeHolder<T>> getRecipesByType(net.minecraft.world.item.crafting.RecipeManager manager, net.minecraft.world.item.crafting.RecipeType<T> type) {
+        return manager.getRecipes().stream()
+                .filter(recipe -> recipe.value().getType() == type)
+                .map(recipe -> (net.minecraft.world.item.crafting.RecipeHolder<T>) recipe)
+                .toList();
     }
 
     @Override

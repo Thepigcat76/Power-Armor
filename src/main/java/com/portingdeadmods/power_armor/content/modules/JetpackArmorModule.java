@@ -3,24 +3,21 @@ package com.portingdeadmods.power_armor.content.modules;
 import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.api.modules.ArmorModule;
 import com.portingdeadmods.power_armor.client.InputHandler;
+import com.portingdeadmods.power_armor.networking.SetDeltaMovementPayload;
 import com.portingdeadmods.power_armor.registries.PAItems;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Set;
 
 public class JetpackArmorModule implements ArmorModule {
-
-    public static final Set<ArmorItem.Type> TYPES = Set.of(ArmorItem.Type.CHESTPLATE);
+    public static final Set<EquipmentSlot> SLOTS = Set.of(EquipmentSlot.CHEST);
 
     @Override
     public Item getItem() {
@@ -28,8 +25,8 @@ public class JetpackArmorModule implements ArmorModule {
     }
 
     @Override
-    public Set<ArmorItem.Type> getArmorTypes() {
-        return TYPES;
+    public Set<EquipmentSlot> getArmorSlots() {
+        return SLOTS;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class JetpackArmorModule implements ArmorModule {
 
     @Override
     public void tick(ItemStack stack, Player player) {
-        if (!this.isActive(stack)) return;
+        if (!this.isActive(stack) && !player.isCreative()) return;
 
         Level level = player.level();
 
@@ -125,5 +122,6 @@ public class JetpackArmorModule implements ArmorModule {
     private static void fly(Player player, double y) {
         var motion = player.getDeltaMovement();
         player.setDeltaMovement(motion.x(), y, motion.z());
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new SetDeltaMovementPayload(player.getDeltaMovement()));
     }
 }

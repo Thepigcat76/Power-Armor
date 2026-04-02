@@ -5,7 +5,7 @@ import com.portingdeadmods.power_armor.registries.PAMenuTypes;
 import com.portingdeadmods.portingdeadlibs.api.gui.menus.PDLAbstractContainerMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import org.jetbrains.annotations.NotNull;
 
 public class CompressorMenu extends PDLAbstractContainerMenu<CompressorBlockEntity> {
@@ -18,8 +18,8 @@ public class CompressorMenu extends PDLAbstractContainerMenu<CompressorBlockEnti
 
         int startX = 56;
         int startY = 35;
-        addSlot(new SlotItemHandler(blockEntity.getItemHandler(), 0, startX, startY));
-        addSlot(new SlotItemHandler(blockEntity.getItemHandler(), 1, startX + 60, startY));
+        addSlot(new ResourceHandlerSlot(blockEntity.getItemHandler(), blockEntity.getItemHandler()::set, 0, startX, startY));
+        addSlot(new ResourceHandlerSlot(blockEntity.getItemHandler(), blockEntity.getItemHandler()::set, 1, startX + 60, startY));
 
         addPlayerInventory(inv, 83 + 1);
         addPlayerHotbar(inv, 141 + 1);

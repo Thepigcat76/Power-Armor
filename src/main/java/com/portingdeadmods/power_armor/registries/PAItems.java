@@ -5,15 +5,18 @@ import com.portingdeadmods.power_armor.PowerArmorConfig;
 import com.portingdeadmods.power_armor.content.items.ArmorModuleItem;
 import com.portingdeadmods.power_armor.content.items.BatteryItem;
 import com.portingdeadmods.portingdeadlibs.api.data.PDLDataComponents;
-import com.portingdeadmods.portingdeadlibs.api.utils.PDLDeferredRegisterItems;
+import com.portingdeadmods.portingdeadlibs.api.misc.PDLDeferredRegisterItems;
 import com.portingdeadmods.power_armor.content.items.PowerArmorItem;
 import com.portingdeadmods.power_armor.data.PAComponents;
 import com.portingdeadmods.power_armor.data.components.ArmorModulesComponent;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.neoforge.registries.DeferredItem;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class PAItems {
@@ -24,21 +27,25 @@ public final class PAItems {
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerSimpleItem("iron_plate");
     public static final DeferredItem<Item> ARMOR_PLATING = ITEMS.registerSimpleItem("armor_plating");
 
-    public static final DeferredItem<Item> BATTERY = ITEMS.register("battery", () -> new BatteryItem(new Item.Properties()
+    public static final DeferredItem<BatteryItem> BATTERY = ITEMS.registerItem("battery", BatteryItem::new, () -> new Item.Properties()
             .component(PDLDataComponents.ENERGY, 0)
-            .stacksTo(1)));
+            .stacksTo(1));
 
-    private static final Supplier<Item.Properties> POWER_ARMOR_PROPS = () -> new Item.Properties()
+    private static final Function<ArmorType, Item.Properties> POWER_ARMOR_PROPS = armorType -> new Item.Properties()
             .component(PAComponents.ARMOR_MODULES.get(), ArmorModulesComponent.EMPTY)
             .component(PDLDataComponents.ENERGY.get(), 0)
             .component(PAComponents.ENERGY_CAPACITY.get(), 64_000)
-            .component(PAComponents.DEFAULT_ATTRIBUTES.get(), ItemAttributeModifiers.EMPTY)
+            .attributes(ItemAttributeModifiers.EMPTY)
+            .component(DataComponents.EQUIPPABLE, Equippable.builder(armorType.getSlot())
+                    .setEquipSound(PAArmorMaterials.POWER_ARMOR.equipSound())
+                    .setAsset(PAArmorMaterials.POWER_ARMOR.assetId())
+                    .build())
             .stacksTo(1);
 
-    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_HELMET = ITEMS.register("power_armor_helmet", () -> new PowerArmorItem(ArmorItem.Type.HELMET, POWER_ARMOR_PROPS.get()));
-    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_CHESTPLATE = ITEMS.register("power_armor_chestplate", () -> new PowerArmorItem(ArmorItem.Type.CHESTPLATE, POWER_ARMOR_PROPS.get()));
-    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_LEGGINGS = ITEMS.register("power_armor_leggings", () -> new PowerArmorItem(ArmorItem.Type.LEGGINGS, POWER_ARMOR_PROPS.get()));
-    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_BOOTS = ITEMS.register("power_armor_boots", () -> new PowerArmorItem(ArmorItem.Type.BOOTS, POWER_ARMOR_PROPS.get()));
+    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_HELMET = ITEMS.registerItem("power_armor_helmet", PowerArmorItem::new, () -> POWER_ARMOR_PROPS.apply(ArmorType.HELMET));
+    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_CHESTPLATE = ITEMS.registerItem("power_armor_chestplate", PowerArmorItem::new, () -> POWER_ARMOR_PROPS.apply(ArmorType.CHESTPLATE));
+    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_LEGGINGS = ITEMS.registerItem("power_armor_leggings", PowerArmorItem::new, () -> POWER_ARMOR_PROPS.apply(ArmorType.LEGGINGS));
+    public static final DeferredItem<PowerArmorItem> POWER_ARMOR_BOOTS = ITEMS.registerItem("power_armor_boots", PowerArmorItem::new, () -> POWER_ARMOR_PROPS.apply(ArmorType.BOOTS));
 
     public static final DeferredItem<ArmorModuleItem> BLANK_ARMOR_MODULE = ITEMS.registerItem("armor_module_blank", ArmorModuleItem::new);
     public static final DeferredItem<ArmorModuleItem> JETPACK_ARMOR_MODULE = ITEMS.registerItem("armor_module_jetpack", ArmorModuleItem::new);

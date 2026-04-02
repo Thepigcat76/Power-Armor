@@ -10,7 +10,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 public record ArmorWidgetSetSlotPositionsPayload(int startY) implements CustomPacketPayload {
-    public static final Type<ArmorWidgetSetSlotPositionsPayload> TYPE = new Type<>(PowerArmor.rl("armor_widget_set_slot_positions"));
+    public static final Type<ArmorWidgetSetSlotPositionsPayload> TYPE = new Type<>(PowerArmor.id("armor_widget_set_slot_positions"));
     public static final StreamCodec<ByteBuf, ArmorWidgetSetSlotPositionsPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,
             ArmorWidgetSetSlotPositionsPayload::startY,
