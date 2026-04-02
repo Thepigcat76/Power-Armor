@@ -20,5 +20,5 @@ public final class PABlocks {
     public static final DeferredBlock<CompressorBlock> COMPRESSOR = BLOCKS.registerBlockWithItem("compressor", CompressorBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK));
     public static final DeferredBlock<ArmorModificationTableBlock> ARMOR_MODIFICATION_TABLE = BLOCKS.registerBlockWithItem("armor_modification_table", ArmorModificationTableBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK));
 
-    //public static final DeferredBlock<CreativeBatteryBlock> CREATIVE_BATTERY = BLOCKS.registerBlockWithItem("creative_battery", CreativeBatteryBlock::new);
+    public static final DeferredBlock<CreativeBatteryBlock> CREATIVE_BATTERY = BLOCKS.registerBlockWithItem("creative_battery", CreativeBatteryBlock::new);
 }

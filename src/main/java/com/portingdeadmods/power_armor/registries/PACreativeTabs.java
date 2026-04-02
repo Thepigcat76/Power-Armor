@@ -1,6 +1,7 @@
 package com.portingdeadmods.power_armor.registries;
 
 import com.portingdeadmods.power_armor.PowerArmor;
+import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,7 +16,7 @@ public final class PACreativeTabs {
             .icon(PAItems.IRON_PLATE::toStack)
             .title(Component.translatable("creative_tabs.power_armor.main"))
             .displayItems((params, out) -> {
-                PAItems.ITEMS.getCreativeTabItems().stream().map(Supplier::get).forEach(out::accept);
+                PAItems.ITEMS.getCreativeTabItems().stream().map(Supplier::get).filter(item -> item != PABlocks.CREATIVE_BATTERY.asItem() || SharedConstants.IS_RUNNING_IN_IDE).forEach(out::accept);
             })
             .build());
 }

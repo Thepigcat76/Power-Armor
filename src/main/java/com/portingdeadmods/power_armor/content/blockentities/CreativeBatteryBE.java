@@ -12,7 +12,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class CreativeBatteryBE extends PDLBlockEntity {
     public CreativeBatteryBE(BlockPos worldPosition, BlockState blockState) {
-        super(null/*PABlockEntityTypes.CREATIVE_BATTERY.get()*/, worldPosition, blockState);
+        super(PABlockEntityTypes.CREATIVE_BATTERY.get(), worldPosition, blockState);
     }
 
     @Override

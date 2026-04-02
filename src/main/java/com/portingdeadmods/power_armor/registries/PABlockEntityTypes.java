@@ -17,6 +17,6 @@ public final class PABlockEntityTypes {
             () -> new BlockEntityType<>(CompressorBlockEntity::new, PABlocks.COMPRESSOR.get()));
     public static final Supplier<BlockEntityType<ArmorModificationTableBlockEntity>> ARMOR_MODIFICATION_TABLE = BLOCK_ENTITY_TYPES.register("armor_modification_table",
             () -> new BlockEntityType<>(ArmorModificationTableBlockEntity::new, PABlocks.ARMOR_MODIFICATION_TABLE.get()));
-//    public static final Supplier<BlockEntityType<CreativeBatteryBE>> CREATIVE_BATTERY = BLOCK_ENTITY_TYPES.register("creative_battery",
-//            () -> new BlockEntityType<>(CreativeBatteryBE::new, PABlocks.CREATIVE_BATTERY.get()));
+    public static final Supplier<BlockEntityType<CreativeBatteryBE>> CREATIVE_BATTERY = BLOCK_ENTITY_TYPES.register("creative_battery",
+            () -> new BlockEntityType<>(CreativeBatteryBE::new, PABlocks.CREATIVE_BATTERY.get()));
 }

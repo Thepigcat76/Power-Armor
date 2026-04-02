@@ -18,7 +18,6 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -95,11 +94,11 @@ public final class PowerArmor {
                 (stack, ctx) -> getComponentEnergyStorage(ctx, stack, PowerArmorConfig.powerArmorEnergyTransfer),
                 PAItems.POWER_ARMOR_BOOTS.get());
 
-        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getHandler(Capabilities.Energy.BLOCK));
-        event.registerBlockEntity(Capabilities.Item.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getHandler(Capabilities.Item.BLOCK));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getExposedEnergyHandler());
+        event.registerBlockEntity(Capabilities.Item.BLOCK, PABlockEntityTypes.COMPRESSOR.get(), (be, ctx) -> be.getExposedItemHandler());
 
         event.registerBlockEntity(Capabilities.Item.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getHandler(Capabilities.Energy.BLOCK));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, PABlockEntityTypes.ARMOR_MODIFICATION_TABLE.get(), (be, ctx) -> be.getExposedEnergyHandler());
 
     }
 

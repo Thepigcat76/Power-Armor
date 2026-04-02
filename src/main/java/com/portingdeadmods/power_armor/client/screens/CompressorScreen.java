@@ -33,9 +33,8 @@ public class CompressorScreen extends PanelContainerScreen<CompressorMenu> {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         super.extractRenderState(graphics, mouseX, mouseY, a);
 
-        CompressorBlockEntity be = this.menu.getBlockEntity();
-        if (be.getMaxProgress() != 0) {
-            float progress = (float) be.getProgress() / be.getMaxProgress();
+        if (this.menu.getMaxProgress() != 0) {
+            float progress = (float) this.menu.getProgress() / this.menu.getMaxProgress();
             int width = (int) (24 * progress);
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, PROGRESS_SPRITE, 24, 16, 0, 0, this.leftPos + 79, this.topPos + 34, width, 16);
         }
