@@ -1,11 +1,13 @@
 package com.portingdeadmods.power_armor.client.screens;
 
+import com.portingdeadmods.portingdeadlibs.api.wrappers.EnergyHandlerWrapper;
 import com.portingdeadmods.portingdeadlibs.client.screens.widgets.EnergyBarWidget;
 import com.portingdeadmods.portingdeadlibs.client.screens.widgets.RedstonePanelWidget;
 import com.portingdeadmods.power_armor.PowerArmor;
 import com.portingdeadmods.power_armor.content.blockentities.CompressorBlockEntity;
 import com.portingdeadmods.power_armor.content.menus.CompressorMenu;
 import com.portingdeadmods.portingdeadlibs.api.client.screens.PanelContainerScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -25,7 +27,17 @@ public class CompressorScreen extends PanelContainerScreen<CompressorMenu> {
     protected void init() {
         super.init();
 
-        addRenderableOnly(EnergyBarWidget.forgeEnergy(this.leftPos + 11, this.topPos + 17, menu.blockEntity, true));
+        addRenderableOnly(new EnergyBarWidget(this.leftPos + 11, this.topPos + 17, new EnergyHandlerWrapper() {
+            @Override
+            public int getEnergyStored() {
+                return menu.getEnergyStored();
+            }
+
+            @Override
+            public int getEnergyCapacity() {
+                return menu.blockEntity.getExposedEnergyHandler().getCapacityAsInt();
+            }
+        }, "FE", true));
         addPanelWidget(new RedstonePanelWidget(this.leftPos + this.imageWidth, this.topPos + 2));
     }
 
@@ -38,6 +50,7 @@ public class CompressorScreen extends PanelContainerScreen<CompressorMenu> {
             int width = (int) (24 * progress);
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, PROGRESS_SPRITE, 24, 16, 0, 0, this.leftPos + 79, this.topPos + 34, width, 16);
         }
+
     }
 
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {

@@ -11,10 +11,11 @@ import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import org.jetbrains.annotations.NotNull;
 
 public class CompressorMenu extends PDLAbstractContainerMenu<CompressorBlockEntity> {
+    public static final int DATA_SLOTS = 3;
     private final ContainerData dataAccess;
 
     public CompressorMenu(int containerId, @NotNull Inventory inv, @NotNull FriendlyByteBuf byteBuf) {
-        this(containerId, inv, (CompressorBlockEntity) inv.player.level().getBlockEntity(byteBuf.readBlockPos()), new SimpleContainerData(2));
+        this(containerId, inv, (CompressorBlockEntity) inv.player.level().getBlockEntity(byteBuf.readBlockPos()), new SimpleContainerData(DATA_SLOTS));
     }
 
     public CompressorMenu(int containerId, @NotNull Inventory inv, @NotNull CompressorBlockEntity blockEntity, ContainerData dataAccess) {
@@ -40,6 +41,10 @@ public class CompressorMenu extends PDLAbstractContainerMenu<CompressorBlockEnti
 
     public int getMaxProgress() {
         return this.dataAccess.get(1);
+    }
+
+    public int getEnergyStored() {
+        return this.dataAccess.get(2);
     }
 
     @Override

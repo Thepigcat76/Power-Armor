@@ -90,6 +90,7 @@ public class CompressorBlockEntity extends SimpleContainerBlockEntity implements
                 return switch (dataId) {
                     case 0 -> progress;
                     case 1 -> maxProgress;
+                    case 2 -> simpleEnergyHandler.getAmountAsInt();
                     default -> 0;
                 };
             }
@@ -99,12 +100,13 @@ public class CompressorBlockEntity extends SimpleContainerBlockEntity implements
                 switch (dataId) {
                     case 0 -> progress = i1;
                     case 1 -> maxProgress = i1;
+                    case 2 -> simpleEnergyHandler.set(i1);
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return CompressorMenu.DATA_SLOTS;
             }
         };
     }
