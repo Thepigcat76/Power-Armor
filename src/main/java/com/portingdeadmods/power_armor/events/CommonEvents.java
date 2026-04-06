@@ -28,10 +28,12 @@ public final class CommonEvents {
     public static void onLivingFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
-            EnergyHandler energyHandler = stack.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(stack));
-            if (ArmorModuleUtils.hasModule(stack, PAArmorModules.JETPACK) && energyHandler != null) {
-                if (energyHandler.getAmountAsInt() > 0) {
-                    event.setDistance(0);
+            if (!stack.isEmpty()) {
+                EnergyHandler energyHandler = stack.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(stack));
+                if (ArmorModuleUtils.hasModule(stack, PAArmorModules.JETPACK) && energyHandler != null) {
+                    if (energyHandler.getAmountAsInt() > 0) {
+                        event.setDistance(0);
+                    }
                 }
             }
         }
